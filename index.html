@@ -1025,40 +1025,66 @@
             }
         });
 
-        function setResponseAndSubmit(response) {
-            document.getElementById('responseInput').value = response;
-            var firstName = document.querySelector('input[name="firstName"]').value;
-            var lastName = document.querySelector('input[name="lastName"]').value;
-            
-            if (!firstName || !lastName) {
-                showMessage('errorMessage', 'Խնդրում ենք լրացնել անունը և ազգանունը։');
-                return;
-            }
-            
-            var message = response === 'Գալիս եմ ' ? 
-                'Շնորհակալություն! Մենք սպասում ենք Ձեզ։ 🎉' : 
-                'Ցավում ենք, որ չեք կարողանա գալ։ Կարոտելու ենք Ձեզ։ 💕';
-            
-            showMessage('successMessage', message);
+    // ── RSVP ──
+    (function () {
+      const FORM     = document.getElementById('rsvpForm');
+      const OK       = document.getElementById('successMessage');
+      const ERR      = document.getElementById('errorMessage');
+      const ENDPOINT = "https://script.google.com/macros/s/AKfycbyYKf9_FCEu340-DraZ0TL14fi0gs1G3pb7Ap8XnXF2X2MhhmTCSugsCkpBVZiHovQXRg/exec";
+
+      FORM.addEventListener('submit', (e) => {
+        e.preventDefault();
+        ERR.style.display = 'none'; ERR.classList.remove('show');
+        OK.style.display  = 'none'; OK.classList.remove('show');
+
+        const first = (FORM.querySelector('[name="firstName"]').value || '').trim();
+        const last  = (FORM.querySelector('[name="lastName"]').value  || '').trim();
+        if (!first || !last) {
+          ERR.innerHTML = '<div class="message-title">Սխալ</div><div class="message-text">Խնդրում ենք լրացնել անունը և ազգանունը</div>';
+          ERR.style.display = 'block';
+          setTimeout(() => ERR.classList.add('show'), 10);
+          return;
         }
 
-        function showMessage(elementId, message) {
-            var msg = document.getElementById(elementId);
-            msg.textContent = message;
-            msg.style.display = 'block';
-            msg.classList.remove('hide', 'show');
-            void msg.offsetWidth;
-            msg.classList.add('show');
-            
-            setTimeout(function() {
-                msg.classList.remove('show');
-                msg.classList.add('hide');
-                setTimeout(function() {
-                    msg.style.display = 'none';
-                    msg.classList.remove('hide');
-                }, 500);
-            }, 4000);
+        const resp = (document.getElementById('responseInput').value || '').trim();
+        if (!resp) {
+          ERR.innerHTML = '<div class="message-title">Sxal</div><div class="message-text">Yntrel gallis ek, te voch</div>';
+          ERR.style.display = 'block';
+          setTimeout(() => ERR.classList.add('show'), 10);
+          return;
         }
+
+        const fd = new FormData(FORM);
+        fd.set('full_name', `${first} ${last}`);
+        fd.set('response',  resp);
+        fd.set('attend',    resp);
+        fd.append('timestamp', new Date().toISOString());
+
+        fetch(ENDPOINT, { method: 'POST', body: fd, keepalive: true }).catch(() => {});
+
+        const responseText = (resp === 'Գալիս եմ') 
+  ? 'Շնորհակալություն... ուրախ ենք օրը կիսել Ձեզ հետ' 
+  : 'Շնորհակալություն, մենք ստացել ենք Ձեր պատասխանը';
+
+        OK.innerHTML = `<div class="message-title">Շնորհակալություն</div><div class="message-text">${responseText}</div>`;
+        OK.style.display = 'block';
+        setTimeout(() => OK.classList.add('show'), 10);
+
+        setTimeout(() => {
+          OK.classList.add('hide');
+          setTimeout(() => { OK.style.display = 'none'; OK.classList.remove('show','hide'); }, 500);
+        }, 4000);
+
+        FORM.reset();
+        document.getElementById('responseInput').value = '';
+      });
+
+      window.setResponseAndSubmit = function (answer) {
+        document.getElementById('responseInput').value = answer;
+        if (FORM.requestSubmit) FORM.requestSubmit();
+        else FORM.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+      };
+    })();
     </script>
 </body>
 </html>
