@@ -28,8 +28,6 @@
     .bottom-triangle {
       position: absolute;
       left: 50%;
-      width: 200%;
-      max-width: 700px;
       transform: translateX(-50%);
       z-index: 2;
       transition: transform 1.5s cubic-bezier(0.77, 0, 0.18, 1);
@@ -38,17 +36,23 @@
     }
 
     .top-triangle {
-      top: -8%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      margin-top: -10%;
     }
 
     .bottom-triangle {
-      bottom: -8%;
+      bottom: 50%;
+      transform: translate(-50%, 50%);
+      margin-bottom: -10%;
     }
 
     .top-triangle img,
     .bottom-triangle img {
-      width: 120%;
+      width: 100%;
       display: block;
+      max-width: 700px;
+      margin: 0 auto;
     }
 
     .bottom-triangle img {
@@ -69,7 +73,6 @@
       justify-content: center;
       cursor: pointer;
       transition: opacity 0.3s ease, transform 0.15s ease;
-     
     }
 
     .seal img {
@@ -86,13 +89,12 @@
     }
 
     /* ===== OPEN STATE ===== */
-    /* triangles move just enough to clear the screen */
     .open .top-triangle {
-      transform: translateX(-50%) translateY(-110%);
+      transform: translate(-50%, -50%) translateY(-120%);
     }
 
     .open .bottom-triangle {
-      transform: translateX(-50%) translateY(110%);
+      transform: translate(-50%, 50%) translateY(120%);
     }
 
     /* seal disappears */
@@ -136,29 +138,27 @@
       box-shadow: 0 8px 20px rgba(0,0,0,0.04);
     }
 
-    /* ===== MOBILE-FIRST TWEAKS ===== */
+    /* ===== MOBILE TWEAKS - իրար կպցնելու համար ===== */
     @media (max-width: 600px) {
-      .top-triangle,
+      .top-triangle {
+        margin-top: -3%;
+      }
+
       .bottom-triangle {
-        width: 160%;
+        margin-bottom: -3%;
+      }
+
+      .top-triangle img,
+      .bottom-triangle img {
         max-width: 500px;
       }
 
-      .top-triangle {
-        top: -4%;
-      }
-
-      .bottom-triangle {
-        bottom: -4%;
-      }
-
-      /* ավելի փոքր տեղաշարժ՝ ծայրերը չհեռանան շատ */
       .open .top-triangle {
-        transform: translateX(-50%) translateY(-95%);
+        transform: translate(-50%, -50%) translateY(-100%);
       }
 
       .open .bottom-triangle {
-        transform: translateX(-50%) translateY(95%);
+        transform: translate(-50%, 50%) translateY(100%);
       }
 
       .seal {
@@ -173,26 +173,25 @@
     }
 
     @media (max-width: 400px) {
-      .top-triangle,
+      .top-triangle {
+        margin-top: -1%;
+      }
+
       .bottom-triangle {
-        width: 180%;
+        margin-bottom: -1%;
+      }
+
+      .top-triangle img,
+      .bottom-triangle img {
         max-width: 380px;
       }
 
-      .top-triangle {
-        top: -2%;
-      }
-
-      .bottom-triangle {
-        bottom: -2%;
-      }
-
       .open .top-triangle {
-        transform: translateX(-50%) translateY(-80%);
+        transform: translate(-50%, -50%) translateY(-85%);
       }
 
       .open .bottom-triangle {
-        transform: translateX(-50%) translateY(80%);
+        transform: translate(-50%, 50%) translateY(85%);
       }
 
       .seal {
@@ -203,9 +202,16 @@
 
     /* large desktop */
     @media (min-width: 1024px) {
-      .top-triangle,
+      .top-triangle {
+        margin-top: -7%;
+      }
+
       .bottom-triangle {
-        width: 130%;
+        margin-bottom: -7%;
+      }
+
+      .top-triangle img,
+      .bottom-triangle img {
         max-width: 900px;
       }
 
@@ -215,11 +221,11 @@
       }
 
       .open .top-triangle {
-        transform: translateX(-50%) translateY(-120%);
+        transform: translate(-50%, -50%) translateY(-130%);
       }
 
       .open .bottom-triangle {
-        transform: translateX(-50%) translateY(120%);
+        transform: translate(-50%, 50%) translateY(130%);
       }
     }
 
