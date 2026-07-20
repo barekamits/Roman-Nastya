@@ -17,7 +17,6 @@
       overflow: hidden;
       background: #E9E5DC;
       font-family: Arial, sans-serif;
-      /* mobile-first: full viewport */
       display: flex;
       align-items: center;
       justify-content: center;
@@ -29,21 +28,21 @@
     .bottom-triangle {
       position: absolute;
       left: 50%;
-      width: 140%;            /* wider for mobile, but keep it scaled */
-      max-width: 700px;       /* cap on large screens */
+      width: 140%;
+      max-width: 700px;
       transform: translateX(-50%);
       z-index: 2;
       transition: transform 1.5s cubic-bezier(0.77, 0, 0.18, 1);
       will-change: transform;
-      pointer-events: none;   /* allow click-through to seal */
+      pointer-events: none;
     }
 
     .top-triangle {
-      top: -10%;              /* overlap top edge */
+      top: -8%;
     }
 
     .bottom-triangle {
-      bottom: -10%;
+      bottom: -8%;
     }
 
     .top-triangle img,
@@ -59,8 +58,8 @@
     /* seal – absolute center, clickable */
     .seal {
       position: absolute;
-      width: 120px;
-      height: 120px;
+      width: 110px;
+      height: 110px;
       left: 50%;
       top: 50%;
       transform: translate(-50%, -50%);
@@ -71,7 +70,9 @@
       cursor: pointer;
       transition: opacity 0.3s ease, transform 0.15s ease;
       border-radius: 50%;
-      
+      background: transparent;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      pointer-events: auto;
     }
 
     .seal img {
@@ -87,24 +88,25 @@
       transform: translate(-50%, -50%) scale(0.92);
     }
 
-    /* open state: triangles fly away */
+    /* ===== OPEN STATE ===== */
+    /* triangles move just enough to clear the screen */
     .open .top-triangle {
-      transform: translateX(-50%) translateY(-120vh);
+      transform: translateX(-50%) translateY(-110%);
     }
 
     .open .bottom-triangle {
-      transform: translateX(-50%) translateY(120vh);
+      transform: translateX(-50%) translateY(110%);
     }
 
-    /* seal disappears (fade + scale) */
+    /* seal disappears */
     .open .seal {
       opacity: 0;
       transform: translate(-50%, -50%) scale(0.5);
-      pointer-events: none;   /* no more clicks */
+      pointer-events: none;
       transition: opacity 0.5s ease, transform 0.6s ease;
     }
 
-    /* second screen – hidden initially, fades in after triangles move */
+    /* second screen */
     .second-screen {
       position: absolute;
       inset: 0;
@@ -113,7 +115,7 @@
       justify-content: center;
       align-items: center;
       opacity: 0;
-      transition: opacity 1s ease 0.6s; /* delay matches animation */
+      transition: opacity 1s ease 0.6s;
       z-index: 1;
       pointer-events: none;
       padding: 1.5rem;
@@ -137,7 +139,7 @@
       box-shadow: 0 8px 20px rgba(0,0,0,0.04);
     }
 
-    /* mobile adjustments: smaller seal, tighter fit */
+    /* ===== MOBILE-FIRST TWEAKS ===== */
     @media (max-width: 600px) {
       .top-triangle,
       .bottom-triangle {
@@ -146,11 +148,20 @@
       }
 
       .top-triangle {
-        top: -5%;
+        top: -4%;
       }
 
       .bottom-triangle {
-        bottom: -5%;
+        bottom: -4%;
+      }
+
+      /* ավելի փոքր տեղաշարժ՝ ծայրերը չհեռանան շատ */
+      .open .top-triangle {
+        transform: translateX(-50%) translateY(-95%);
+      }
+
+      .open .bottom-triangle {
+        transform: translateX(-50%) translateY(95%);
       }
 
       .seal {
@@ -164,12 +175,27 @@
       }
     }
 
-    /* very small screens */
     @media (max-width: 400px) {
       .top-triangle,
       .bottom-triangle {
         width: 180%;
         max-width: 380px;
+      }
+
+      .top-triangle {
+        top: -2%;
+      }
+
+      .bottom-triangle {
+        bottom: -2%;
+      }
+
+      .open .top-triangle {
+        transform: translateX(-50%) translateY(-80%);
+      }
+
+      .open .bottom-triangle {
+        transform: translateX(-50%) translateY(80%);
       }
 
       .seal {
@@ -178,7 +204,7 @@
       }
     }
 
-    /* large desktop: keep elegant */
+    /* large desktop */
     @media (min-width: 1024px) {
       .top-triangle,
       .bottom-triangle {
@@ -190,9 +216,17 @@
         width: 140px;
         height: 140px;
       }
+
+      .open .top-triangle {
+        transform: translateX(-50%) translateY(-120%);
+      }
+
+      .open .bottom-triangle {
+        transform: translateX(-50%) translateY(120%);
+      }
     }
 
-    /* extra: subtle background texture (optional) */
+    /* background texture */
     body::before {
       content: '';
       position: absolute;
@@ -205,22 +239,18 @@
 </head>
 <body>
 
-  <!-- top triangle (envelope flap) -->
   <div class="top-triangle">
-    <img src="image-removebg-preview.png" alt="envelope top">
+    <img src="https://uploads.onecompiler.io/43gpeysj6/1784542378318/image-removebg-preview.png" alt="envelope top">
   </div>
 
-  <!-- bottom triangle (envelope bottom) -->
   <div class="bottom-triangle">
-    <img src="image-removebg-preview.png" alt="envelope bottom">
+    <img src="https://uploads.onecompiler.io/43gpeysj6/1784542378318/image-removebg-preview.png" alt="envelope bottom">
   </div>
 
-  <!-- seal / click trigger -->
   <div class="seal" id="sealBtn" role="button" aria-label="Open envelope">
     <img src="https://uploads.onecompiler.io/43gpeysj6/1784535804737/wss1.png" alt="seal">
   </div>
 
-  <!-- second page (reveals on open) -->
   <div class="second-screen">
     <h1>Երկրորդ էջ</h1>
   </div>
@@ -230,39 +260,19 @@
       const seal = document.getElementById('sealBtn');
 
       function openEnvelope(e) {
-        // Prevent multiple triggers
         if (document.body.classList.contains('open')) return;
-
-        // Add 'open' class to body – triggers all CSS transitions
         document.body.classList.add('open');
-
-        // (optional) disable seal click after opening
         seal.style.pointerEvents = 'none';
       }
 
-      // attach click event to seal
       seal.addEventListener('click', openEnvelope);
-
-      // also support touch devices (tap)
       seal.addEventListener('touchstart', function(e) {
-        // prevent double-firing on mobile
         if (document.body.classList.contains('open')) {
           e.preventDefault();
           return;
         }
-        // small delay to let the :active style show, but we open anyway
         openEnvelope(e);
       }, { passive: false });
-
-      // Fallback: if user clicks anywhere else? no, only seal.
-
-      // for debugging / reset (optional double-click body to reset – but we keep it clean)
-      // we don't provide reset to keep experience consistent.
-      // if you want to reset for testing, uncomment next lines (but not in production)
-      // document.body.addEventListener('dblclick', function() {
-      //   document.body.classList.remove('open');
-      //   seal.style.pointerEvents = 'auto';
-      // });
     })();
   </script>
 
