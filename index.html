@@ -175,11 +175,11 @@
         }
         
         .main-title {
-            font-family: 'Heghnar';
-            font-size: 2.2rem;
+            font-family: 'Crafty Girls', cursive; /* Փոխված է ամսաթվի ֆոնտով */
+            font-size: 2.8rem;
             font-weight: 400;
             color: #2c2c2c;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.02em;
             margin-bottom: 10px;
             line-height: 1.2;
         }
@@ -249,7 +249,7 @@
                 padding: 30px 20px;
             }
             .main-title {
-                font-size: 1.8rem;
+                font-size: 2.2rem;
             }
             .date-info {
                 font-size: 1.6rem;
@@ -755,6 +755,357 @@
             height: 2px;
             background: linear-gradient(to right, transparent, rgba(0,0,0,0.1), transparent);
         }
+         /* ========== ԺԱՄԱՆԱԿԱՑՈՒՅՑԻ ԲԼՈԿ ========== */
+    .agenda-section {
+      width: 100%;
+      max-width: 700px;
+     
+      text-align: center;
+      padding: 30px 20px 50px;
+
+      margin-top: 30px;
+    }
+
+    .agenda-title-upper {
+      font-family: "BrittanySignature", cursive;
+      font-size: clamp(34px, 7vw, 52px);
+      font-weight: 400;
+      color: #8a7357;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    /* ========== REVEAL ANIMATION ========== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity 1s ease, transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ========== ԺԱՄԱՆԱԿԱՑՈՒՅՑ (ԿԵՆՏՐՈՆԱԿԱՆ ԳԻԾ + ԱՋ/ՁԱԽ) ========== */
+    .timing-list {
+      position: relative;
+      margin-top: 44px;
+      padding: 0 10px;
+    }
+
+    /* Կենտրոնական գիծ */
+    .timing-list::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: rgba(74, 64, 56, 0.2);
+      transform: translateX(-50%);
+    }
+
+    .timing-item {
+      position: relative;
+      display: flex;
+      align-items: flex-start;
+      width: 100%;
+      padding-bottom: 60px;
+    }
+
+    .timing-item:last-child {
+      padding-bottom: 0;
+    }
+
+    /* Delay-ներ յուրաքանչյուր տարրի համար */
+    .timing-item:nth-child(1) { transition-delay: 0s; }
+    .timing-item:nth-child(2) { transition-delay: 0.1s; }
+    .timing-item:nth-child(3) { transition-delay: 0.2s; }
+    .timing-item:nth-child(4) { transition-delay: 0.3s; }
+
+    /* ===== ՄԱՐԿԵՐ (սիրտը) ===== */
+    .timing-marker {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%);
+      z-index: 1;
+      width: 42px;
+      height: 42px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent; /* Սպիտակ ֆոնը հեռացված է */
+    }
+
+    .timing-marker svg {
+      width: 25px;
+      height: 25px;
+      fill: #8a7357;
+    }
+
+    .timing-marker svg path {
+      fill: #8a7357;
+    }
+
+    /* ===== ԲՈՎԱՆԴԱԿՈՒԹՅՈՒՆ ===== */
+    .timing-content {
+      width: calc(50% - 34px);
+      padding-top: 3px;
+      min-width: 0;
+      word-wrap: break-word;
+      
+      /* === Նոր դասավորություն (մեկ տող) === */
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px 12px;
+      justify-content: center;
+    }
+
+    /* Ձախ կողմի տարրեր */
+    .timing-item.side-left .timing-content {
+      margin-right: calc(50% + 34px);
+      text-align: center;
+    }
+
+    /* Աջ կողմի տարրեր */
+    .timing-item.side-right .timing-content {
+      margin-left: calc(50% + 10px);
+      text-align: center;
+    }
+
+    .timing-time {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 500;
+      font-size: 45px !important;
+      color: #8a7357;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .timing-desc {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 500;
+      font-size: 25px !important;
+      color: #9a8f83;
+      margin-top: 0px; /* Փոփոխված */
+      white-space: nowrap;
+    }
+
+    .timing-venue {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: clamp(15px, 2.7vw, 18px);
+      color: #6b5d4f;
+      margin-top: 14px;
+      white-space: nowrap;
+    }
+
+    /* ===== ՀՂՄԱՆ ԿՈՂՄԻԿ ===== */
+    .timing-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 0px; /* Փոփոխված */
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(15px, 2.5vw, 18px);
+      color: #8a7357;
+      text-decoration: none;
+      padding: 4px 16px 4px 12px;
+      border-radius: 30px;
+      border: 1px solid rgba(138, 115, 87, 0.35);
+      background: rgba(138, 115, 87, 0.07);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .timing-link:hover {
+      background: #8a7357;
+      color: #fdfaf4;
+      border-color: #8a7357;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(138, 115, 87, 0.25);
+    }
+
+    .timing-link svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+      flex-shrink: 0;
+      transition: fill 0.3s ease;
+    }
+
+    .timing-link:hover svg {
+      fill: #fdfaf4;
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 768px) {
+      .agenda-section {
+        padding: 20px 10px 30px;
+      }
+
+      .agenda-title-upper {
+        font-size: 38px;
+      }
+
+      .timing-list {
+        margin-top: 30px;
+        padding: 0 5px;
+      }
+
+      .timing-item {
+        padding-bottom: 40px;
+      }
+
+      .timing-marker {
+        width: 34px;
+        height: 34px;
+      }
+
+      .timing-marker svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      .timing-content {
+        width: calc(50% - 26px);
+        gap: 6px 10px;
+      }
+
+      .timing-item.side-left .timing-content {
+        margin-right: calc(50% + 26px);
+      }
+
+      .timing-item.side-right .timing-content {
+        margin-left: calc(50% + 26px);
+      }
+
+      .timing-time {
+        font-size: 28px !important;
+      }
+
+      .timing-desc {
+        font-size: 18px !important;
+      }
+
+      .timing-venue {
+        font-size: 14px !important;
+        white-space: normal;
+      }
+
+      .timing-link {
+        font-size: 14px !important;
+        padding: 3px 12px 3px 10px;
+        gap: 5px;
+      }
+
+      .timing-link svg {
+        width: 14px;
+        height: 14px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .agenda-section {
+        padding: 15px 6px 25px;
+      }
+
+      .agenda-title-upper {
+        font-size: 32px;
+      }
+
+      .timing-list {
+        margin-top: 24px;
+        padding: 0 3px;
+      }
+
+      .timing-item {
+        padding-bottom: 32px;
+      }
+
+      .timing-marker {
+        width: 28px;
+        height: 28px;
+      }
+
+      .timing-marker svg {
+        width: 16px;
+        height: 16px;
+      }
+
+      .timing-content {
+        width: calc(50% - 20px);
+        padding-top: 2px;
+        gap: 4px 6px;
+      }
+
+      .timing-item.side-left .timing-content {
+        margin-right: calc(50% + 20px);
+        padding-right: 4px;
+      }
+
+      .timing-item.side-right .timing-content {
+        margin-left: calc(50% + 20px);
+        padding-left: 4px;
+      }
+
+      .timing-time {
+        font-size: 22px !important;
+      }
+
+      .timing-desc {
+        font-size: 15px !important;
+        margin-top: 0px;
+      }
+
+      .timing-venue {
+        font-size: 12px !important;
+        margin-top: 8px;
+        white-space: normal;
+        word-wrap: break-word;
+      }
+
+      .timing-link {
+        font-size: 12px !important;
+        padding: 2px 10px 2px 8px;
+        gap: 4px;
+        margin-top: 0px;
+      }
+
+      .timing-link svg {
+        width: 12px;
+        height: 12px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .timing-content {
+        width: calc(50% - 16px);
+      }
+
+      .timing-item.side-left .timing-content {
+        margin-right: calc(50% + 16px);
+      }
+
+      .timing-item.side-right .timing-content {
+        margin-left: calc(50% + 16px);
+      }
+
+      .timing-time {
+        font-size: 18px !important;
+      }
+
+      .timing-desc {
+        font-size: 13px !important;
+      }
+    }
     </style>
 </head>
 <body>
@@ -789,12 +1140,12 @@
             </div>
 
             <div class="invitation-text">
-                Սիրելի՛ բարեկամներ, հարազատներ և ընկերներ,
+                Բարեկամներ և ընկերներ 
                 <br><br>
-                Մեր կյանքի ամենակարևոր օրը մոտ է։  Ուրախ ենք հրավիրել Ձեզ մեր հարսանիքին, որտեղ սերը, երջանկությունը և ջերմ հիշողությունները միահյուսվելու են անմոռանալի տոնի մեջ։
-                <br><br>
-                Ձեր ներկայությունը մեզ համար ամենաթանկ նվերն է։
-                <span>Սիրով՝ Ռոման և Նաստյա </span>
+               Սերը սկիզբ է, որը չունի վերջ։ Սիրով հրավիրում ենք Ձեզ ներկա գտնվելու 
+մեր հարսանյաց արարողությանը և կիսելու մեզ հետ մեր կյանքի ամենակարևոր ու
+սպասված օրը։
+
             </div>
 
             <div class="calendar-container">
@@ -840,60 +1191,81 @@
                 </table>
             </div>
 
-            <div class="content show" id="content">
-                <div class="image">
-                    <img src="removedmap.png" alt="Սիրտ">
-                </div>
+       
+            <!-- ===== ԺԱՄԱՆԱԿԱՑՈՒՅՑԻ ԲԼՈԿ (առանձնացված) ===== -->
+            <div class="agenda-section">
+                <div class="agenda-title-upper reveal is-visible">Ժամանակացույց</div>
 
-                <div class="location-wrapper" id="locationWrapper">
-                    <svg class="path-svg" id="pathSvg" viewBox="0 0 400 480" preserveAspectRatio="none">
-                        <path
-                            id="travelPath"
-                            class="dotted-path"
-                            d="M 200 10 C 320 10, 320 140, 200 150 C 80 160, 80 290, 200 300 C 320 310, 320 440, 200 450"
-                        />
-                    </svg>
-
-                    <div class="stop-dot" id="dot1" style="left:50%; top:10px;"></div>
-                    <div class="stop-dot" id="dot2" style="left:30%; top:175px;"></div>
-                    <div class="stop-dot" id="dot3" style="left:75%; top:370px;"></div>
-
-                    <div class="location-traveler animate-path" id="locationIcon">
-                        <img src="https://uploads.onecompiler.io/43gpeysj6/1784538615888/heart.png" alt="Icon">
+                <div class="timing-list">
+                    <!-- 1. Հարսի Տուն -->
+                    <div class="timing-item side-left reveal is-visible">
+                        <div class="timing-marker">
+                            <svg viewBox="0 0 32 29" fill="#8a7357">
+                                <path d="M16 28.5 2.7 16.6C-0.6 13.5-0.7 8.4 2.5 5.2 5.4 2.3 10 2.2 13 5l3 2.8L19 5c3-2.8 7.6-2.7 10.5.2 3.2 3.2 3.1 8.3-0.2 11.4L16 28.5Z"/>
+                            </svg>
+                        </div>
+                        <div class="timing-content">
+                            <div class="timing-time">11:00</div>
+                            <div class="timing-desc">Հարսի Տուն</div>
+                        </div>
                     </div>
 
-                    <div class="schedule-item left" id="stop1" style="top: -10px; right: calc(50% + 18px);">
-                        <div class="s-time">11:00</div>
-                        <div class="s-title">Հարսի Տուն</div>
+                    <!-- 2. Փեսայի Տուն -->
+                    <div class="timing-item side-right reveal is-visible">
+                        <div class="timing-marker">
+                            <svg viewBox="0 0 32 29" fill="#8a7357">
+                                <path d="M16 28.5 2.7 16.6C-0.6 13.5-0.7 8.4 2.5 5.2 5.4 2.3 10 2.2 13 5l3 2.8L19 5c3-2.8 7.6-2.7 10.5.2 3.2 3.2 3.1 8.3-0.2 11.4L16 28.5Z"/>
+                            </svg>
+                        </div>
+                        <div class="timing-content">
+                            <div class="timing-time">11:00</div>
+                            <div class="timing-desc">Հարսի Տուն</div>
+                            <a href="#" target="_blank" class="timing-link">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                                </svg>
+                                Ինչպես հասնել
+                            </a>
+                        </div>
                     </div>
 
-                    <div class="schedule-item right" id="stop2" style="top: 130px; left: calc(50% + 18px);">
-                        <div class="s-time">14:00</div>
-                        <div class="s-title">Պսակադրություն</div>
-                        <div class="s-desc">Սուրբ Գայանե Եկեղեցի</div>
-                        <a href="https://maps.app.goo.gl/w6K8oBFTZrgDQBfVA"
-                           class="btn-nav"
-                           target="_blank"
-                           rel="noopener noreferrer">
-                           Ինչպես հասնել
-                        </a>
+                    <!-- 3. Պսակադրություն -->
+                    <div class="timing-item side-left reveal is-visible">
+                        <div class="timing-marker">
+                            <svg viewBox="0 0 32 29" fill="#8a7357">
+                                <path d="M16 28.5 2.7 16.6C-0.6 13.5-0.7 8.4 2.5 5.2 5.4 2.3 10 2.2 13 5l3 2.8L19 5c3-2.8 7.6-2.7 10.5.2 3.2 3.2 3.1 8.3-0.2 11.4L16 28.5Z"/>
+                            </svg>
+                        </div>
+                        <div class="timing-content">
+                            <div class="timing-time">14:00</div>
+                            <div class="timing-desc">Պսակադրություն</div>
+                            <a href="#" target="_blank" class="timing-link">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                                </svg>
+                                Ինչպես հասնել
+                            </a>
+                        </div>
                     </div>
 
-                    <div class="schedule-item left" id="stop3" style="top: 295px; right: calc(50% + 18px);">
-                        <div class="s-time">17:00</div>
-                        <div class="s-title">Տոնական Խնջույք</div>
-                        <div class="s-desc">Ալգա Գրանդ Ռեստորանային Համալիր</div>
-                        <a href="https://maps.app.goo.gl/w6K8oBFTZrgDQBfVA"
-                           class="btn-nav"
-                           target="_blank"
-                           rel="noopener noreferrer">
-                           Ինչպես հասնել
-                        </a>
+                    <!-- 4. Տոնական Խնջույք -->
+                    <div class="timing-item side-right reveal is-visible">
+                        <div class="timing-marker">
+                            <svg viewBox="0 0 32 29" fill="#8a7357">
+                                <path d="M16 28.5 2.7 16.6C-0.6 13.5-0.7 8.4 2.5 5.2 5.4 2.3 10 2.2 13 5l3 2.8L19 5c3-2.8 7.6-2.7 10.5.2 3.2 3.2 3.1 8.3-0.2 11.4L16 28.5Z"/>
+                            </svg>
+                        </div>
+                        <div class="timing-content">
+                            <div class="timing-time">17:00</div>
+                            <div class="timing-desc">Տոնական Խնջույք</div>
+                            <a href="#" target="_blank" class="timing-link">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                                </svg>
+                                Ինչպես հասնել
+                            </a>
+                        </div>
                     </div>
-                </div>
-
-                <div class="ketagic-bg">
-                    <img src="https://uploads.onecompiler.io/43gpeysj6/1783465065772/first.jpg" alt="Nkar">
                 </div>
             </div>
 
@@ -918,7 +1290,9 @@
             
             setTimeout(function() {
                 const traveler = document.querySelector('.location-traveler');
-                traveler.classList.add('playing');
+                if (traveler) {
+                    traveler.classList.add('playing');
+                }
                 
                 // Show dots with delays
                 const dots = document.querySelectorAll('.stop-dot');
@@ -926,72 +1300,16 @@
                     setTimeout(() => dot.classList.add('visible'), 2000 + index * 1000);
                 });
                 
-                // Start monitoring traveler position to show schedule items
-                monitorTravelerPosition(traveler);
-                
+                // Show schedule items with delays
+                const items = document.querySelectorAll('.schedule-item');
+                items.forEach((item, index) => {
+                    setTimeout(() => {
+                        item.classList.add('visible');
+                    }, 2500 + index * 1500);
+                });
             }, 1500);
         }
 
-        function monitorTravelerPosition(traveler) {
-            // Get the animation
-            const animations = traveler.getAnimations();
-            if (animations.length === 0) return;
-            
-            const animation = animations[0];
-            const stop1Shown = false;
-            const stop2Shown = false;
-            const stop3Shown = false;
-            
-            // Check position every frame
-            function checkPosition() {
-                // Get current offset-distance value
-                const computedStyle = getComputedStyle(traveler);
-                const offsetDistance = computedStyle.offsetDistance;
-                
-                // Parse percentage
-                let percent = 0;
-                if (offsetDistance) {
-                    const match = offsetDistance.match(/([\d.]+)%/);
-                    if (match) {
-                        percent = parseFloat(match[1]);
-                    }
-                }
-                
-                // Show items based on traveler position
-                // Stop 1: around 0-8% (starting point)
-                if (percent >= 0 && percent <= 10 && !window.stop1Shown) {
-                    document.getElementById('stop1').classList.add('visible');
-                    window.stop1Shown = true;
-                }
-                
-                // Stop 2: around 33-41% (first stop)
-                if (percent >= 33 && percent <= 45 && !window.stop2Shown) {
-                    document.getElementById('stop2').classList.add('visible');
-                    window.stop2Shown = true;
-                }
-                
-                // Stop 3: around 66-74% (second stop)
-                if (percent >= 66 && percent <= 78 && !window.stop3Shown) {
-                    document.getElementById('stop3').classList.add('visible');
-                    window.stop3Shown = true;
-                }
-                
-                // Continue monitoring if animation is still running
-                if (animation.playState === 'running') {
-                    requestAnimationFrame(checkPosition);
-                } else {
-                    // Final check for stop 3 if not shown yet
-                    if (!window.stop3Shown) {
-                        document.getElementById('stop3').classList.add('visible');
-                        window.stop3Shown = true;
-                    }
-                }
-            }
-            
-            // Start monitoring
-            requestAnimationFrame(checkPosition);
-        }
- 
         document.addEventListener('DOMContentLoaded', function () {
             var music = document.getElementById('bg-music');
             var musicBtn = document.getElementById('music-btn');
