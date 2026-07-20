@@ -1,970 +1,270 @@
 <!DOCTYPE html>
 <html lang="hy">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wedding Invitation</title>
-    <link href="https://fonts.googleapis.com/css2?family=Italianno&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Crafty+Girls&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
-    
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Allura&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Great+Vibes&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&display=swap');
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Cormorant Garamond', serif;
-            background-color: #e8e0d6;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        html, body {
-            overflow-x: hidden;
-            overflow-y: auto;
-        }
-
-        @font-face {
-            font-family: 'Island-Moments';
-            src: url("IslandMoments-Regular.ttf") format('truetype');
-        }
-        @font-face {
-            font-family: 'HEGHNAR';
-            src: url("HEGHNAR.TTF") format('truetype');
-        }
-        @font-face {
-            font-family: 'Vrdznagir';
-            src: url("Vrdznagir.otf") format('opentype');
-        }
-        
-        /* ─── Ծրարի էֆեկտ (եռանկյուններ + կնիք) ─── */
-        .envelope-flap {
-            position: fixed;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100vw;
-            max-width: 500px;
-            z-index: 10;
-            transition: transform 1.8s cubic-bezier(0.65, 0, 0.35, 1);
-            pointer-events: none;
-        }
-
-        .envelope-flap.top { 
-            top: -180px;
-            height:100vh;
-            width:300vh;
-            min-height: 300px;
-        }
-
-        .envelope-flap.bottom {
-           top: 300px;
-            height: 80vh;
-            width:80vh;
-            min-height: 300px;
-        }
-
-        .envelope-flap img {
-            width: 100%;
-            height: 100%;
-            display: block;
-            object-fit: fill;
-        }
-
-        /* Ներքևի եռանկյունը առանց պտույտի */
-        .envelope-flap.bottom img {
-            transform: none;
-        }
-
-        .open .envelope-flap.top {
-            transform: translateX(-50%) translateY(-100vh);
-        }
-
-        .open .envelope-flap.bottom {
-            transform: translateX(-50%) translateY(100vh);
-        }
-
-        .seal {
-            position: fixed;
-            width: 200px;
-            height: 300px;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 15;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: transform 0.3s ease, opacity 0.6s ease 0.3s;
-            border-radius: 50%;
-            background: transparent;
-            pointer-events: auto;
-        }
-        .seal img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            display: block;
-            border-radius: 50%;
-        }
-        .seal:hover {
-            transform: translate(-50%, -50%) scale(1.05);
-        }
-        .seal:active {
-            transform: translate(-50%, -50%) scale(0.92);
-        }
-
-        .open .seal {
-            opacity: 0;
-            pointer-events: none;
-            transform: translate(-50%, -50%) scale(0.5);
-        }
-        
-        .second-screen {
-            position: fixed;
-            inset: 0;
-            background: #E9E5DC;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            opacity: 0;
-            transition: opacity 1.2s ease 1s;
-            z-index: 1;
-            pointer-events: none;
-            overflow-y: auto;
-            padding: 40px 20px;
-        }
-
-        .open .second-screen {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        
-        .invitation-card {
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-            padding: 40px 30px;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            margin-bottom: 30px;
-        }
-        
-        .main-title {
-            font-family: 'Heghnar';
-            font-size: 2.2rem;
-            font-weight: 400;
-            color: #2c2c2c;
-            letter-spacing: 0.1em;
-            margin-bottom: 10px;
-            line-height: 1.2;
-        }
-
-        .amp {
-            font-family: 'Italianno';
-            font-size: 60px;
-            color: inherit;
-            display: inline-block;
-            line-height: 1;
-        }
-
-        .date-info {
-            font-family: 'Crafty Girls';
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            font-size: 2.1rem;
-            color: #2c2c2c;
-            font-weight: bold;
-            position: relative;
-            padding-bottom: 10px;
-        }
-        
-        .date-info::after {
-            content: '';
-            position: absolute;
-            width: 80%;
-            height: 1px;
-            background-color: #2c2c2c;
-            left: 50%;
-            transform: translateX(-50%);
-            bottom: -10px;
-        }
-        
-        .couple-photo {
-            width: 100%;
-            height: 420px;
-            background: linear-gradient(135deg, #f0f0f0, #d0d0d0);
-            border-radius: 8px;
-            margin-top: 20px;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .photo-placeholder {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #666;
-            font-size: 1.1rem;
-        }
-
-        .photo-placeholder img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center 30%;
-            filter: grayscale(100%);
-        }
-
-        @media (max-width: 480px) {
-            .invitation-card {
-                padding: 30px 20px;
-            }
-            .main-title {
-                font-size: 1.8rem;
-            }
-            .date-info {
-                font-size: 1.6rem;
-                margin-bottom: 20px;
-            }
-            .couple-photo {
-                height: 320px;
-                margin-top: 15px;
-            }
-            .seal {
-                width: 55px;
-                height: 55px;
-            }
-            .envelope-flap {
-                max-width: 100vw;
-            }
-            .envelope-flap.top {
-                height: 45vh;
-                min-height: 250px;
-            }
-            .envelope-flap.bottom {
-                height: 45vh;
-                min-height: 250px;
-            }
-        }
-
-        /* ═══ MAIN CONTENT ═══ */
-        .content {
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-            z-index: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: -20px;
-        }
-
-        #music-btn {
-            width: 50px;
-            height: 50px;
-            cursor: pointer;
-            margin-bottom: 10px;
-        }
-
-        .image img {
-            width: 300px;
-            height: 200px;
-            cursor: pointer;
-            margin-top: -10px;
-        }
-
-        /* ═══ LOCATION PATH ═══ */
-        .location-wrapper {
-            position: relative;
-            width: 100%;
-            height: 480px;
-            margin-top: -60px;
-            overflow: visible;
-        }
-
-        .path-svg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 480px;
-            overflow: visible;
-        }
-
-        .dotted-path {
-            fill: none;
-            stroke: #5c4a3a;
-            stroke-width: 3;
-            stroke-dasharray: 1, 14;
-            stroke-linecap: round;
-            opacity: 0.75;
-        }
-
-        .location-traveler {
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            pointer-events: none;
-            z-index: 10;
-            filter: drop-shadow(0 3px 8px rgba(92, 74, 58, 0.45));
-            top: 0;
-            left: 0;
-        }
-
-        .location-traveler img {
-            width: 45px;
-            height: auto;
-            display: block;
-        }
-
-        .location-traveler.animate-path {
-            offset-path: path('M 200 10 C 320 10, 320 140, 200 150 C 80 160, 80 290, 200 300 C 320 310, 320 440, 200 450');
-            offset-distance: 0%;
-            offset-rotate: 0deg;
-            animation: travelPath 12s ease-in-out forwards;
-            animation-play-state: paused;
-        }
-
-        .location-traveler.animate-path.playing {
-            animation-play-state: running;
-        }
-
-        @keyframes travelPath {
-            0%   { offset-distance: 0%; }
-            8%   { offset-distance: 0%; }
-            33%  { offset-distance: 33%; }
-            41%  { offset-distance: 33%; }
-            58%  { offset-distance: 66%; }
-            66%  { offset-distance: 66%; }
-            83%  { offset-distance: 100%; }
-            100% { offset-distance: 100%; }
-        }
-
-        .schedule-item {
-            position: absolute;
-            max-width: 160px;
-            opacity: 0;
-            transform: translateY(18px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-
-        .schedule-item.visible {
-            opacity: 1;
-            transform: translateY(0) !important;
-        }
-
-        .schedule-item.left {
-            text-align: right;
-            margin-top: 20px;
-        }
-
-        .schedule-item.right {
-            text-align: left;
-            margin-top: 1%;
-        }
-
-        .s-time {
-            font-size: 42px;
-            font-family: 'HEGHNAR';
-            color: rgba(44, 44, 44, 0.12);
-            font-weight: bold;
-            line-height: 1;
-            letter-spacing: 0.02em;
-        }
-
-        .s-title {
-            font-family: 'Vrdznagir';
-            font-size: 20px;
-            font-weight: bold;
-            color: #2c2c2c;
-            margin-top: 6px;
-        }
-
-        .s-desc {
-            font-family: 'Vrdznagir', serif;
-            font-size: 12px;
-            color: #777;
-            margin: 2px 0 10px;
-            font-style: italic;
-            text-align: center;
-            white-space: nowrap;
-        }
-        .stop-dot {
-            position: absolute;
-            width: 12px;
-            height: 12px;
-            background: #5c4a3a;
-            border-radius: 50%;
-            z-index: 5;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            transform: translate(-50%, -50%);
-        }
-
-        .stop-dot.visible {
-            opacity: 1;
-        }
-
-        .btn-nav {
-            display: inline-block;
-            padding: 5px 14px;
-            border: 1px solid #b0a090;
-            cursor: pointer;
-            font-size: 10px;
-            font-family: 'Vrdznagir';
-            color: #5c4a3a;
-            background-color: transparent;
-            border-radius: 20px;
-            text-decoration: none;
-            transition: all 0.3s;
-            letter-spacing: 0.05em;
-        }
-
-        .btn-nav:hover {
-            background: #5c4a3a;
-            color: white;
-            border-color: #5c4a3a;
-        }
-
-        #stop1 {
-            text-align: center;
-        }
-        #stop1 .s-title { white-space: nowrap; }
-        #stop1 .s-desc { text-align: center; margin-top: 4px; }
-        #stop1 .btn-nav { display: inline-block; margin-top: 8px; }
-
-        #stop2 {
-            top: 130px !important;
-            left: calc(50% + 5px) !important;
-        }
-
-        #stop3 {
-            text-align: center;
-        }
-        #stop3 .s-title { white-space: nowrap; }
-        #stop3 .s-desc { text-align: center; margin-top: 4px; }
-        #stop3 .btn-nav { display: inline-block; margin-top: 8px; }
-
-        #stop4 {
-            left: auto !important;
-            right: calc(8% + 4px) !important;
-            text-align: right;
-        }
-        #stop4 .s-title { white-space: nowrap; }
-        #stop4 .s-desc { text-align: center; margin-top: 4px; }
-        #stop4 .btn-nav { display: inline-block; margin-top: 8px; }
-
-        .ketagic-bg {
-            position: relative;
-            width: 100%;
-            margin-top: -30px;
-            border-radius: 12px;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .ketagic-bg img {
-            width: 100%;
-            height: auto;
-            object-fit: contain;
-            border-radius: 12px;
-            opacity: 0.85;
-        }
-        
-        .calendar-container {
-            position: relative;
-            top: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            text-align: center;
-        }
-
-        .big-date {
-            font-size: 60px;
-            font-weight: 300;
-            color: rgba(0,0,0,0.1);
-            margin: 0;
-            line-height: 1;
-        }
-
-        .month-text {
-            font-family: 'Vrdznagir';
-            font-size: 32px;
-            font-style: italic;
-            color: #333333;
-            margin-top: -4px;
-            margin-bottom: 20px;
-        }
-
-        table {
-            border-collapse: collapse;
-            margin: 0 auto;
-            text-align: center;
-            font-size: 18px;
-        }
-
-        th {
-            font-weight: 400;
-            padding: 10px;
-            color: #666;
-        }
-
-        td {
-            width: 40px;
-            height: 40px;
-            padding: 5px;
-            color: #333;
-            position: relative;
-        }
-
-        .heart {
-            width: 40px;
-            height: 40px;
-            position: absolute;
-            top: 70%;
-        }
-
-        .heart svg {
-            width: 100%;
-            height: 100%;
-            stroke:  #B08648;
-            stroke-width: 2;
-            fill: none;
-        }
-
-        .heart span {
-            position: absolute;
-            top: 48%;
-            left: 50%;
-            transform: translate(-50%, -60%);
-            font-size: 16px;
-            font-weight: 500;
-            color: #2c3e50;
-        }
-
-        #rsvpForm {
-            margin: 40px auto;
-            width: 100%;
-            max-width: 320px;
-        }
-
-        .name-fields {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            align-items: center;
-            padding: 0 20px;
-        }
-
-        .name-input {
-            width: 100%;
-            padding: 12px 16px;
-            font-size: 16px;
-            color: #3B3B28;
-            background-color: white;
-            border: 1px solid #3B3B28;
-            border-radius: 25px;
-            outline: none;
-            transition: all 0.3s ease;
-        }
-
-        .name-input::placeholder { color: #888; }
-
-        .name-input:focus {
-            border-color: #4c4731;
-            box-shadow: 0 0 0 2px rgba(76, 71, 49, 0.1);
-        }
-
-        .button-wrapper {
-            margin-top: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            align-items: center;
-        }
-
-        .btn-rsvp {
-            font-size: 18px;
-            color: white;
-            padding: 12px 45px;
-            border-radius: 40px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-
-        .btn-yes { background-color: #4c4731; }
-        .btn-no  { background-color: #7b685b; }
-
-        .btn-rsvp:hover {
-            opacity: 0.9;
-            transform: translateY(-1px);
-        }
-
-        .confirmation-message {
-            position: fixed;
-            top: 145px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1000;
-            font-size: 18px;
-            color: #4c4731;
-            text-align: center;
-            opacity: 0;
-            transition: all 0.5s ease;
-            background-color: rgba(255, 255, 255, 0.95);
-            padding: 20px 30px;
-            border-radius: 20px;
-            border: 1px solid #4c4731;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-            backdrop-filter: blur(10px);
-            max-width: 350px;
-            pointer-events: none;
-        }
-
-        .confirmation-message.show {
-            opacity: 1;
-            animation: slideInFromTop 0.6s ease-out;
-        }
-
-        .confirmation-message.hide {
-            animation: slideOutToTop 0.5s ease-in;
-        }
-
-        .error-message {
-            color: #d32f2f !important;
-            border-color: #d32f2f !important;
-            background-color: rgba(255, 235, 238, 0.95) !important;
-        }
-
-        @keyframes slideInFromTop {
-            from { opacity: 0; transform: translateX(-50%) translateY(-100px); }
-            to   { opacity: 1; transform: translateX(-50%) translateY(0); }
-        }
-
-        @keyframes slideOutToTop {
-            from { opacity: 1; transform: translateX(-50%) translateY(0); }
-            to   { opacity: 0; transform: translateX(-50%) translateY(-100px); }
-        }
-
-        .message-title {
-            font-family: 'Vrdznagir', sans-serif;
-            font-size: 22px;
-            margin-bottom: 8px;
-            color: #4c4731;
-        }
-
-        .message-text {
-            font-family: 'Vrdznagir', sans-serif;
-            font-size: 16px;
-            line-height: 1.4;
-        }
-
-        .rsvp-select {
-            width: 100%;
-            cursor: pointer;
-            background-color: transparent;
-            outline: none;
-        }
-
-        .dual-button-wrapper {
-            display: flex;
-            justify-content: space-between;
-            gap: 8px;
-            margin-top: 15px;
-            width: 100%;
-        }
-
-        .dual-button-wrapper .btn-rsvp {
-            flex: 1;
-            padding: 12px 2px;
-            font-size: 13px;
-            white-space: nowrap;
-            letter-spacing: -0.5px;
-            cursor: pointer;
-            text-align: center;
-            border: 1px solid #ccc;
-            background-color: #4c4731;
-            color: #fff;
-            transition: all 0.3s ease;
-        }
-
-        @media (max-width: 360px) {
-            .dual-button-wrapper .btn-rsvp {
-                font-size: 11px;
-            }
-        }
-
-        .invitation-text {
-            font-family: 'Vrdznagir', serif;
-            font-size: 18px;
-            line-height: 1.6;
-            color: #2c2c2c;
-            margin: 25px 0 30px;
-            padding: 20px;
-            border-radius: 12px;
-            font-style: italic;
-        }
-
-        .invitation-text span {
-            display: block;
-            font-size: 22px;
-            font-weight: bold;
-            font-style: normal;
-            margin-top: 10px;
-            font-family: 'HEGHNAR';
-        }
-
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Envelope Open Animation</title>
+  <style>
+    /* reset & base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      height: 100vh;
+      overflow: hidden;
+      background: #E9E5DC;
+      font-family: Arial, sans-serif;
+      /* mobile-first: full viewport */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    /* envelope layers */
+    .top-triangle,
+    .bottom-triangle {
+      position: absolute;
+      left: 50%;
+      width: 140%;            /* wider for mobile, but keep it scaled */
+      max-width: 700px;       /* cap on large screens */
+      transform: translateX(-50%);
+      z-index: 2;
+      transition: transform 1.5s cubic-bezier(0.77, 0, 0.18, 1);
+      will-change: transform;
+      pointer-events: none;   /* allow click-through to seal */
+    }
+
+    .top-triangle {
+      top: -10%;              /* overlap top edge */
+    }
+
+    .bottom-triangle {
+      bottom: -10%;
+    }
+
+    .top-triangle img,
+    .bottom-triangle img {
+      width: 100%;
+      display: block;
+    }
+
+    .bottom-triangle img {
+      transform: rotate(180deg);
+    }
+
+    /* seal – absolute center, clickable */
+    .seal {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: opacity 0.3s ease, transform 0.15s ease;
+      border-radius: 50%;
+      
+    }
+
+    .seal img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      border-radius: 50%;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
+    }
+
+    .seal:active {
+      transform: translate(-50%, -50%) scale(0.92);
+    }
+
+    /* open state: triangles fly away */
+    .open .top-triangle {
+      transform: translateX(-50%) translateY(-120vh);
+    }
+
+    .open .bottom-triangle {
+      transform: translateX(-50%) translateY(120vh);
+    }
+
+    /* seal disappears (fade + scale) */
+    .open .seal {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.5);
+      pointer-events: none;   /* no more clicks */
+      transition: opacity 0.5s ease, transform 0.6s ease;
+    }
+
+    /* second screen – hidden initially, fades in after triangles move */
+    .second-screen {
+      position: absolute;
+      inset: 0;
+      background: #E9E5DC;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 1s ease 0.6s; /* delay matches animation */
+      z-index: 1;
+      pointer-events: none;
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .open .second-screen {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .second-screen h1 {
+      font-family: 'Georgia', 'Times New Roman', serif;
+      color: #4a4a4a;
+      font-size: clamp(2rem, 10vw, 3.8rem);
+      letter-spacing: 2px;
+      background: rgba(255, 255, 240, 0.4);
+      padding: 0.8rem 2rem;
+      border-radius: 60px;
+      backdrop-filter: blur(2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+    }
+
+    /* mobile adjustments: smaller seal, tighter fit */
+    @media (max-width: 600px) {
+      .top-triangle,
+      .bottom-triangle {
+        width: 160%;
+        max-width: 500px;
+      }
+
+      .top-triangle {
+        top: -5%;
+      }
+
+      .bottom-triangle {
+        bottom: -5%;
+      }
+
+      .seal {
+        width: 90px;
+        height: 90px;
+      }
+
+      .second-screen h1 {
+        font-size: clamp(1.8rem, 9vw, 3rem);
+        padding: 0.6rem 1.2rem;
+      }
+    }
+
+    /* very small screens */
+    @media (max-width: 400px) {
+      .top-triangle,
+      .bottom-triangle {
+        width: 180%;
+        max-width: 380px;
+      }
+
+      .seal {
+        width: 75px;
+        height: 75px;
+      }
+    }
+
+    /* large desktop: keep elegant */
+    @media (min-width: 1024px) {
+      .top-triangle,
+      .bottom-triangle {
+        width: 130%;
+        max-width: 900px;
+      }
+
+      .seal {
+        width: 140px;
+        height: 140px;
+      }
+    }
+
+    /* extra: subtle background texture (optional) */
+    body::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 30% 40%, rgba(220,215,200,0.2) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+  </style>
 </head>
 <body>
 
-    <!-- ─── Ծրարի շերտ ─── -->
-    <div class="envelope-flap top">
-        <img src="Vector%203.png" alt="վերևի եռանկյուն" />
-    </div>
-    <div class="envelope-flap bottom">
-        <img src="Vector%202.png" alt="ներքևի եռանկյուն" />
-    </div>
+  <!-- top triangle (envelope flap) -->
+  <div class="top-triangle">
+    <img src="image-removebg-preview.png" alt="envelope top">
+  </div>
 
-    <div class="seal" onclick="openEnvelope()">
-        <img src="https://uploads.onecompiler.io/43gpeysj6/1784535804737/wss1.png" alt="կնիք" />
-    </div>
+  <!-- bottom triangle (envelope bottom) -->
+  <div class="bottom-triangle">
+    <img src="image-removebg-preview.png" alt="envelope bottom">
+  </div>
 
-    <!-- ─── Երկրորդ էկրան (հրավեր + ամբողջ բովանդակություն) ─── -->
-    <div class="second-screen">
-        <div class="invitation-card">
-            <h1 class="main-title">
-                Roman <br> <span class="amp">&</span> <br> Nastia
-            </h1>
+  <!-- seal / click trigger -->
+  <div class="seal" id="sealBtn" role="button" aria-label="Open envelope">
+    <img src="https://uploads.onecompiler.io/43gpeysj6/1784535804737/wss1.png" alt="seal">
+  </div>
 
-            <div class="date-info">
-                <span>18 AUGUST</span>
-                <span>2026</span>
-            </div>
-            
-            <div class="couple-photo">
-                <div class="photo-placeholder">
-                    <img src="https://uploads.onecompiler.io/43gpeysj6/1783465065772/first.jpg" alt="Roman & Nastia">
-                </div>
-            </div>
+  <!-- second page (reveals on open) -->
+  <div class="second-screen">
+    <h1>Երկրորդ էջ</h1>
+  </div>
 
-            <div class="invitation-text">
-                Սիրելի՛ բարեկամներ, հարազատներ և ընկերներ,
-                <br><br>
-                Մեր կյանքի ամենակարևոր օրը մոտ է։  Ուրախ ենք հրավիրել Ձեզ մեր հարսանիքին, որտեղ սերը, երջանկությունը և ջերմ հիշողությունները միահյուսվելու են անմոռանալի տոնի մեջ։
-                <br><br>
-                Ձեր ներկայությունը մեզ համար ամենաթանկ նվերն է։
-                <span>Սիրով՝ Ռոման և Նաստյա </span>
-            </div>
+  <script>
+    (function() {
+      const seal = document.getElementById('sealBtn');
 
-            <div class="calendar-container">
-                <p class="big-date">18/08</p>
-                <p class="month-text">18 Օգոստոսի</p>
+      function openEnvelope(e) {
+        // Prevent multiple triggers
+        if (document.body.classList.contains('open')) return;
 
-                <table>
-                    <tr>
-                        <th>Mon</th>
-                        <th>Tue</th>
-                        <th>Wed</th>
-                        <th>Thu</th>
-                        <th>Fri</th>
-                        <th>Sat</th>
-                        <th>Sun</th>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>1</td>
-                        <td>2</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>4</td>
-                        <td>5</td>
-                        <td>6</td>
-                        <td>7</td>
-                        <td>8</td>
-                        <td>9</td>
-                    </tr>
-                    <tr>
-                        <td>10</td>
-                        <td>11</td>
-                        <td>12</td>
-                        <td>13</td>
-                        <td>14</td>
-                        <td>15</td>
-                        <td>16</td>
-                    </tr>
-                    <tr>
-                        <td>17</td>
-                        <td class="heart">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M12 21s-6-4.35-9-8.7C-1.5 6.6 4.5 0 12 5.25
-                                         19.5 0 25.5 6.6 21 12.3c-3 4.35-9 8.7-9 8.7z"/>
-                            </svg>
-                            <span>18</span>
-                        </td>
-                        <td>19</td>
-                        <td>20</td>
-                        <td>21</td>
-                        <td>22</td>
-                        <td>23</td>
-                    </tr>
-                    <tr>
-                        <td>24</td>
-                        <td>25</td>
-                        <td>26</td>
-                        <td>27</td>
-                        <td>28</td>
-                        <td>29</td>
-                        <td>30</td>
-                    </tr>
-                    <tr>
-                        <td>31</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </table>
-            </div>
+        // Add 'open' class to body – triggers all CSS transitions
+        document.body.classList.add('open');
 
-            <div class="content show" id="content">
-                <div class="image">
-                    <img src="removedmap.png" alt="Սիրտ">
-                </div>
+        // (optional) disable seal click after opening
+        seal.style.pointerEvents = 'none';
+      }
 
-                <div class="location-wrapper" id="locationWrapper">
-                    <svg class="path-svg" id="pathSvg" viewBox="0 0 400 480" preserveAspectRatio="none">
-                        <path
-                            id="travelPath"
-                            class="dotted-path"
-                            d="M 200 10
-                               C 320 10, 320 140, 200 150
-                               C 80 160, 80 290, 200 300
-                               C 320 310, 320 440, 200 450"
-                        />
-                    </svg>
+      // attach click event to seal
+      seal.addEventListener('click', openEnvelope);
 
-                    <div class="stop-dot" id="dot1" style="left:50%; top:10px;"></div>
-                    <div class="stop-dot" id="dot2" style="left:30%; top:175px;"></div>
-                    <div class="stop-dot" id="dot3" style="left:75%; top:370px;"></div>
-
-                    <div class="location-traveler animate-path" id="locationIcon">
-                        <img src="https://uploads.onecompiler.io/43gpeysj6/1784538615888/heart.png" alt="Icon">
-                    </div>
-
-                    <div class="schedule-item left" id="stop1" style="top: -10px; right: calc(50% + 18px);">
-                        <div class="s-time">11:00</div>
-                        <div class="s-title">Հարսի Տուն</div>
-                       ք. Էջմիածին  - Andranik 3rd district,133
-                    </div>
-
-                    <div class="schedule-item right" id="stop2" style="top: 130px; left: calc(50% + 18px);">
-                        <div class="s-time">14:00</div>
-                        <div class="s-title"> Պսակադրություն</div>
-                        <div class="s-desc"> Սուրբ Գայանե Եկեղեցի</div>
-                    </div>
-
-                    <div class="schedule-item left" id="stop3" style="top: 295px; right: calc(50% + 18px);">
-                        <div class="s-time">17:00</div>
-                        <div class="s-title">Տոնական Խնջույք</div>
-                        <div class="s-desc">Ալգա Գրանդ Ռեստորանային Համալիր</div>
-                        <a href="https://maps.app.goo.gl/w6K8oBFTZrgDQBfVA"
-                           class="btn-nav"
-                           target="_blank"
-                           rel="noopener noreferrer">
-                           Ինչպես հասնել
-                        </a>
-                    </div>
-                </div>
-
-                <div class="ketagic-bg">
-                    <img src="https://uploads.onecompiler.io/43gpeysj6/1783465065772/first.jpg" alt="Nkar">
-                </div>
-            </div>
-
-            <form id="rsvpForm" class="name-fields">
-                <input type="text" name="firstName" class="name-input" placeholder="Անուն" required>
-                <input type="text" name="lastName" class="name-input" placeholder="Ազգանուն" required>
-                <input type="hidden" name="response" id="responseInput">
-                <div class="button-wrapper">
-                    <button type="button" class="btn-rsvp btn-yes" onclick="setResponseAndSubmit('Գալիս եմ ')">Գալիս եմ</button>
-                    <button type="button" class="btn-rsvp btn-no" onclick="setResponseAndSubmit('Չեմ գալիս')">Չեմ գալիս</button>
-                </div>
-                <div class="confirmation-message" id="successMessage" style="display:none;"></div>
-                <div class="confirmation-message error-message" id="errorMessage" style="display:none;"></div>
-            </form>
-        </div>
-    </div>
-
-    <script>
-        function openEnvelope() {
-            document.body.classList.add("open");
-            
-            setTimeout(function() {
-                document.querySelector('.location-traveler').classList.add('playing');
-                
-                var dots = document.querySelectorAll('.stop-dot');
-                var items = document.querySelectorAll('.schedule-item');
-                
-                dots.forEach(function(dot, index) {
-                    setTimeout(function() {
-                        dot.classList.add('visible');
-                    }, 2000 + index * 1000);
-                });
-                
-                items.forEach(function(item, index) {
-                    setTimeout(function() {
-                        item.classList.add('visible');
-                    }, 2500 + index * 1000);
-                });
-            }, 1500);
+      // also support touch devices (tap)
+      seal.addEventListener('touchstart', function(e) {
+        // prevent double-firing on mobile
+        if (document.body.classList.contains('open')) {
+          e.preventDefault();
+          return;
         }
+        // small delay to let the :active style show, but we open anyway
+        openEnvelope(e);
+      }, { passive: false });
 
-        document.addEventListener('DOMContentLoaded', function () {
-            var music = document.getElementById('bg-music');
-            var musicBtn = document.getElementById('music-btn');
-            var isPlaying = false;
+      // Fallback: if user clicks anywhere else? no, only seal.
 
-            if (musicBtn) {
-                musicBtn.addEventListener('click', function () {
-                    if (isPlaying) {
-                        music.pause();
-                        musicBtn.src = 'play.png';
-                    } else {
-                        music.play();
-                        musicBtn.src = 'pause.png';
-                    }
-                    isPlaying = !isPlaying;
-                });
-            }
-        });
-    </script>
+      // for debugging / reset (optional double-click body to reset – but we keep it clean)
+      // we don't provide reset to keep experience consistent.
+      // if you want to reset for testing, uncomment next lines (but not in production)
+      // document.body.addEventListener('dblclick', function() {
+      //   document.body.classList.remove('open');
+      //   seal.style.pointerEvents = 'auto';
+      // });
+    })();
+  </script>
+
 </body>
 </html>
