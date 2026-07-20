@@ -920,153 +920,147 @@
         Your browser does not support the audio element.
     </audio>
 
-     <script>
-    function openEnvelope() {
-        document.body.classList.add("open");
-        document.querySelector('.seal').style.cursor = 'default';
-        
-        // ─── Միացնել երաժշտությունը 20-րդ վայրկյանից ───
-        var music = document.getElementById('bg-music');
-        
-        // Սպասել 20 վայրկյան, հետո միացնել
-        setTimeout(function() {
-            music.currentTime = 20; // Սկսել 20-րդ վայրկյանից
+    <script>
+        function openEnvelope() {
+            document.body.classList.add("open");
+            document.querySelector('.seal').style.cursor = 'default';
+            
+            // ─── Միացնել երաժշտությունը ───
+            var music = document.getElementById('bg-music');
             music.play().catch(function(error) {
                 console.log('Audio playback failed:', error);
-            });
-        }, 20000); // 20000 միլիվայրկյան = 20 վայրկյան
-        
-        setTimeout(function() {
-            const traveler = document.querySelector('.location-traveler');
-            traveler.classList.add('playing');
-            
-            // Show dots with delays
-            const dots = document.querySelectorAll('.stop-dot');
-            dots.forEach((dot, index) => {
-                setTimeout(() => dot.classList.add('visible'), 2000 + index * 1000);
+                // Եթե ավտոմատ միացումը չի աշխատում, օգտատերը կարող է սեղմել play կոճակին
             });
             
-            // Start monitoring traveler position to show schedule items
-            monitorTravelerPosition(traveler);
-            
-        }, 1500);
-    }
+            setTimeout(function() {
+                const traveler = document.querySelector('.location-traveler');
+                traveler.classList.add('playing');
+                
+                // Show dots with delays
+                const dots = document.querySelectorAll('.stop-dot');
+                dots.forEach((dot, index) => {
+                    setTimeout(() => dot.classList.add('visible'), 2000 + index * 1000);
+                });
+                
+                // Start monitoring traveler position to show schedule items
+                monitorTravelerPosition(traveler);
+                
+            }, 1500);
+        }
 
-    function monitorTravelerPosition(traveler) {
-        // Get the animation
-        const animations = traveler.getAnimations();
-        if (animations.length === 0) return;
-        
-        const animation = animations[0];
-        const stop1Shown = false;
-        const stop2Shown = false;
-        const stop3Shown = false;
-        
-        // Check position every frame
-        function checkPosition() {
-            // Get current offset-distance value
-            const computedStyle = getComputedStyle(traveler);
-            const offsetDistance = computedStyle.offsetDistance;
+        function monitorTravelerPosition(traveler) {
+            // Get the animation
+            const animations = traveler.getAnimations();
+            if (animations.length === 0) return;
             
-            // Parse percentage
-            let percent = 0;
-            if (offsetDistance) {
-                const match = offsetDistance.match(/([\d.]+)%/);
-                if (match) {
-                    percent = parseFloat(match[1]);
+            const animation = animations[0];
+            const stop1Shown = false;
+            const stop2Shown = false;
+            const stop3Shown = false;
+            
+            // Check position every frame
+            function checkPosition() {
+                // Get current offset-distance value
+                const computedStyle = getComputedStyle(traveler);
+                const offsetDistance = computedStyle.offsetDistance;
+                
+                // Parse percentage
+                let percent = 0;
+                if (offsetDistance) {
+                    const match = offsetDistance.match(/([\d.]+)%/);
+                    if (match) {
+                        percent = parseFloat(match[1]);
+                    }
                 }
-            }
-            
-            // Show items based on traveler position
-            // Stop 1: around 0-8% (starting point)
-            if (percent >= 0 && percent <= 10 && !window.stop1Shown) {
-                document.getElementById('stop1').classList.add('visible');
-                window.stop1Shown = true;
-            }
-            
-            // Stop 2: around 33-41% (first stop)
-            if (percent >= 33 && percent <= 45 && !window.stop2Shown) {
-                document.getElementById('stop2').classList.add('visible');
-                window.stop2Shown = true;
-            }
-            
-            // Stop 3: around 66-74% (second stop)
-            if (percent >= 66 && percent <= 78 && !window.stop3Shown) {
-                document.getElementById('stop3').classList.add('visible');
-                window.stop3Shown = true;
-            }
-            
-            // Continue monitoring if animation is still running
-            if (animation.playState === 'running') {
-                requestAnimationFrame(checkPosition);
-            } else {
-                // Final check for stop 3 if not shown yet
-                if (!window.stop3Shown) {
+                
+                // Show items based on traveler position
+                // Stop 1: around 0-8% (starting point)
+                if (percent >= 0 && percent <= 10 && !window.stop1Shown) {
+                    document.getElementById('stop1').classList.add('visible');
+                    window.stop1Shown = true;
+                }
+                
+                // Stop 2: around 33-41% (first stop)
+                if (percent >= 33 && percent <= 45 && !window.stop2Shown) {
+                    document.getElementById('stop2').classList.add('visible');
+                    window.stop2Shown = true;
+                }
+                
+                // Stop 3: around 66-74% (second stop)
+                if (percent >= 66 && percent <= 78 && !window.stop3Shown) {
                     document.getElementById('stop3').classList.add('visible');
                     window.stop3Shown = true;
                 }
-            }
-        }
-        
-        // Start monitoring
-        requestAnimationFrame(checkPosition);
-    }
-
-    document.addEventListener('DOMContentLoaded', function () {
-        var music = document.getElementById('bg-music');
-        var musicBtn = document.getElementById('music-btn');
-        var isPlaying = false;
-
-        if (musicBtn) {
-            musicBtn.addEventListener('click', function () {
-                if (isPlaying) {
-                    music.pause();
-                    musicBtn.src = 'play.png';
+                
+                // Continue monitoring if animation is still running
+                if (animation.playState === 'running') {
+                    requestAnimationFrame(checkPosition);
                 } else {
-                    music.currentTime = 20; // Եթե կոճակով միացնում ենք, նույնպես 20-ից
-                    music.play();
-                    musicBtn.src = 'pause.png';
+                    // Final check for stop 3 if not shown yet
+                    if (!window.stop3Shown) {
+                        document.getElementById('stop3').classList.add('visible');
+                        window.stop3Shown = true;
+                    }
                 }
-                isPlaying = !isPlaying;
-            });
+            }
+            
+            // Start monitoring
+            requestAnimationFrame(checkPosition);
         }
-    });
+ 
+        document.addEventListener('DOMContentLoaded', function () {
+            var music = document.getElementById('bg-music');
+            var musicBtn = document.getElementById('music-btn');
+            var isPlaying = false;
 
-    function setResponseAndSubmit(response) {
-        document.getElementById('responseInput').value = response;
-        var firstName = document.querySelector('input[name="firstName"]').value;
-        var lastName = document.querySelector('input[name="lastName"]').value;
-        
-        if (!firstName || !lastName) {
-            showMessage('errorMessage', 'Խնդրում ենք լրացնել անունը և ազգանունը։');
-            return;
+            if (musicBtn) {
+                musicBtn.addEventListener('click', function () {
+                    if (isPlaying) {
+                        music.pause();
+                        musicBtn.src = 'play.png';
+                    } else {
+                        music.play();
+                        musicBtn.src = 'pause.png';
+                    }
+                    isPlaying = !isPlaying;
+                });
+            }
+        });
+
+        function setResponseAndSubmit(response) {
+            document.getElementById('responseInput').value = response;
+            var firstName = document.querySelector('input[name="firstName"]').value;
+            var lastName = document.querySelector('input[name="lastName"]').value;
+            
+            if (!firstName || !lastName) {
+                showMessage('errorMessage', 'Խնդրում ենք լրացնել անունը և ազգանունը։');
+                return;
+            }
+            
+            var message = response === 'Գալիս եմ ' ? 
+                'Շնորհակալություն! Մենք սպասում ենք Ձեզ։ 🎉' : 
+                'Ցավում ենք, որ չեք կարողանա գալ։ Կարոտելու ենք Ձեզ։ 💕';
+            
+            showMessage('successMessage', message);
         }
-        
-        var message = response === 'Գալիս եմ ' ? 
-            'Շնորհակալություն! Մենք սպասում ենք Ձեզ։ 🎉' : 
-            'Ցավում ենք, որ չեք կարողանա գալ։ Կարոտելու ենք Ձեզ։ 💕';
-        
-        showMessage('successMessage', message);
-    }
 
-    function showMessage(elementId, message) {
-        var msg = document.getElementById(elementId);
-        msg.textContent = message;
-        msg.style.display = 'block';
-        msg.classList.remove('hide', 'show');
-        void msg.offsetWidth;
-        msg.classList.add('show');
-        
-        setTimeout(function() {
-            msg.classList.remove('show');
-            msg.classList.add('hide');
+        function showMessage(elementId, message) {
+            var msg = document.getElementById(elementId);
+            msg.textContent = message;
+            msg.style.display = 'block';
+            msg.classList.remove('hide', 'show');
+            void msg.offsetWidth;
+            msg.classList.add('show');
+            
             setTimeout(function() {
-                msg.style.display = 'none';
-                msg.classList.remove('hide');
-            }, 500);
-        }, 4000);
-    }
-</script>
-
+                msg.classList.remove('show');
+                msg.classList.add('hide');
+                setTimeout(function() {
+                    msg.style.display = 'none';
+                    msg.classList.remove('hide');
+                }, 500);
+            }, 4000);
+        }
+    </script>
 </body>
 </html>
