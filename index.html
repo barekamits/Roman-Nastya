@@ -25,8 +25,9 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            padding: 40px 20px 20px;
+            padding: 0;
             position: relative;
+            overflow: hidden;
         }
 
         html, body {
@@ -48,55 +49,77 @@
         }
         
         /* ─── Ծրարի էֆեկտ (եռանկյուններ + կնիք) ─── */
-        .bottom-triangle {
-    position: fixed;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100vw;
-    z-index: 2;
-    transition: transform 2.2s cubic-bezier(0.77,0,0.18,1);
-}
+        .envelope-flap {
+            position: fixed;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100vw;
+            max-width: 500px;
+            z-index: 10;
+            transition: transform 1.8s cubic-bezier(0.65, 0, 0.35, 1);
+            pointer-events: none;
+        }
 
-.top-triangle{
-    top: -160px;
-}
+        .envelope-flap.top { 
+            top: -180px;
+            height:100vh;
+            width:300vh;
+            min-height: 300px;
+        }
 
-.bottom-triangle{
-    bottom: -160px;
-}
+        .envelope-flap.bottom {
+           top: 300px;
+            height: 80vh;
+            width:80vh;
+            min-height: 300px;
+        }
 
-.top-triangle img,
-.bottom-triangle img{
-    width:100%;
-    display:block;
-}
+        .envelope-flap img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: fill;
+        }
 
-.bottom-triangle img{
-    transform:rotate(180deg);
-}
+        /* Ներքևի եռանկյունը առանց պտույտի */
+        .envelope-flap.bottom img {
+            transform: none;
+        }
+
+        .open .envelope-flap.top {
+            transform: translateX(-50%) translateY(-100vh);
+        }
+
+        .open .envelope-flap.bottom {
+            transform: translateX(-50%) translateY(100vh);
+        }
 
         .seal {
             position: fixed;
-            width: 80px;
-            height: 80px;
+            width: 200px;
+            height: 300px;
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
-            z-index: 5;
+            z-index: 15;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: transform 0.25s ease, opacity 0.8s ease 0.4s;
+            transition: transform 0.3s ease, opacity 0.6s ease 0.3s;
             border-radius: 50%;
             background: transparent;
+            pointer-events: auto;
         }
         .seal img {
-            width: 700%;
-            height: 300%;
+            width: 100%;
+            height: 100%;
             object-fit: contain;
             display: block;
             border-radius: 50%;
+        }
+        .seal:hover {
+            transform: translate(-50%, -50%) scale(1.05);
         }
         .seal:active {
             transform: translate(-50%, -50%) scale(0.92);
@@ -107,41 +130,7 @@
             pointer-events: none;
             transform: translate(-50%, -50%) scale(0.5);
         }
-   .open .top-triangle{
-    transform: translateX(-50%) translateY(-100vh);
-}
-
-.open .bottom-triangle{
-    transform: translateX(-50%) translateY(100vh);
-}
-@media (max-width: 480px){
-
-    .top-triangle,
-    .bottom-triangle{
-        width: 140%;
-        left: -20%;
-    }
-
-    .top-triangle{
-        top: -230px;
-    }
-
-    .bottom-triangle{
-        bottom: -230px;
-    }
-
-    .seal{
-        transform: translate(-50%, -50%);
-    }
-
-    .open .top-triangle{
-        transform: translateY(-100vh);
-    }
-
-    .open .bottom-triangle{
-        transform: translateY(100vh);
-    }
-}
+        
         .second-screen {
             position: fixed;
             inset: 0;
@@ -150,7 +139,7 @@
             justify-content: center;
             align-items: flex-start;
             opacity: 0;
-            transition: opacity 1.2s ease 0.9s;
+            transition: opacity 1.2s ease 1s;
             z-index: 1;
             pointer-events: none;
             overflow-y: auto;
@@ -244,7 +233,6 @@
             filter: grayscale(100%);
         }
 
-        /* ─── RESPONSIVE ─── */
         @media (max-width: 480px) {
             .invitation-card {
                 padding: 30px 20px;
@@ -260,9 +248,20 @@
                 height: 320px;
                 margin-top: 15px;
             }
-            .seal img {
-                width: 500%;
-                height: 250%;
+            .seal {
+                width: 55px;
+                height: 55px;
+            }
+            .envelope-flap {
+                max-width: 100vw;
+            }
+            .envelope-flap.top {
+                height: 45vh;
+                min-height: 250px;
+            }
+            .envelope-flap.bottom {
+                height: 45vh;
+                min-height: 250px;
             }
         }
 
@@ -445,72 +444,34 @@
             border-color: #5c4a3a;
         }
 
-        /* Stop 1 հատուկ դասավորություն */
         #stop1 {
             text-align: center;
         }
+        #stop1 .s-title { white-space: nowrap; }
+        #stop1 .s-desc { text-align: center; margin-top: 4px; }
+        #stop1 .btn-nav { display: inline-block; margin-top: 8px; }
 
-        #stop1 .s-title {
-            white-space: nowrap;
-        }
-
-        #stop1 .s-desc {
-            text-align: center;
-            margin-top: 4px;
-        }
-
-        #stop1 .btn-nav {
-            display: inline-block;
-            margin-top: 8px;
-        }
-
-        /* Stop 2 հատուկ դասավորություն */
         #stop2 {
             top: 130px !important;
             left: calc(50% + 5px) !important;
         }
 
-        /* Stop 3 հատուկ դասավորություն */
         #stop3 {
             text-align: center;
         }
+        #stop3 .s-title { white-space: nowrap; }
+        #stop3 .s-desc { text-align: center; margin-top: 4px; }
+        #stop3 .btn-nav { display: inline-block; margin-top: 8px; }
 
-        #stop3 .s-title {
-            white-space: nowrap;
-        }
-
-        #stop3 .s-desc {
-            text-align: center;
-            margin-top: 4px;
-        }
-
-        #stop3 .btn-nav {
-            display: inline-block;
-            margin-top: 8px;
-        }
-
-        /* Stop 4 հատուկ դասավորություն */
         #stop4 {
             left: auto !important;
             right: calc(8% + 4px) !important;
             text-align: right;
         }
-        
-        #stop4 .s-title {
-            white-space: nowrap;
-        }
+        #stop4 .s-title { white-space: nowrap; }
+        #stop4 .s-desc { text-align: center; margin-top: 4px; }
+        #stop4 .btn-nav { display: inline-block; margin-top: 8px; }
 
-        #stop4 .s-desc {
-            text-align: center;
-            margin-top: 4px;
-        }
-
-        #stop4 .btn-nav {
-            display: inline-block;
-            margin-top: 8px;
-        }
-
-        /* ═══ COUPLE 2 PHOTO ═══ */
         .ketagic-bg {
             position: relative;
             width: 100%;
@@ -528,7 +489,6 @@
             opacity: 0.85;
         }
         
-        /* ═══ CALENDAR ═══ */
         .calendar-container {
             position: relative;
             top: -10px;
@@ -600,7 +560,6 @@
             color: #2c3e50;
         }
 
-        /* ═══ RSVP ═══ */
         #rsvpForm {
             margin: 40px auto;
             width: 100%;
@@ -720,7 +679,6 @@
             line-height: 1.4;
         }
 
-        /* Ընտրության դաշտի ոճը, որ համապատասխանի մյուս input-ներին */
         .rsvp-select {
             width: 100%;
             cursor: pointer;
@@ -756,7 +714,6 @@
             }
         }
 
-        /* ═══ INVITATION TEXT ═══ */
         .invitation-text {
             font-family: 'Vrdznagir', serif;
             font-size: 18px;
@@ -782,11 +739,11 @@
 <body>
 
     <!-- ─── Ծրարի շերտ ─── -->
-    <div class="top-triangle">
-        <img src="https://uploads.onecompiler.io/43gpeysj6/1784542378318/image-removebg-preview.png" alt="վերևի եռանկյուն" />
+    <div class="envelope-flap top">
+        <img src="https://uploads.onecompiler.io/43gpeysj6/1784562484278/Vector%203.png" alt="վերևի եռանկյուն" />
     </div>
-    <div class="bottom-triangle">
-        <img src="https://uploads.onecompiler.io/43gpeysj6/1784542378318/image-removebg-preview.png" alt="ներքևի եռանկյուն" />
+    <div class="envelope-flap bottom">
+        <img src="https://uploads.onecompiler.io/43gpeysj6/1784562507206/Vector%202.png" alt="ներքևի եռանկյուն" />
     </div>
 
     <div class="seal" onclick="openEnvelope()">
@@ -811,7 +768,6 @@
                 </div>
             </div>
 
-            <!-- Invitation Text -->
             <div class="invitation-text">
                 Սիրելի՛ բարեկամներ, հարազատներ և ընկերներ,
                 <br><br>
@@ -821,7 +777,6 @@
                 <span>Սիրով՝ Ռոման և Նաստյա </span>
             </div>
 
-            <!-- Calendar -->
             <div class="calendar-container">
                 <p class="big-date">18/08</p>
                 <p class="month-text">18 Օգոստոսի</p>
@@ -899,13 +854,11 @@
                 </table>
             </div>
 
-            <!-- Main Content -->
             <div class="content show" id="content">
                 <div class="image">
                     <img src="removedmap.png" alt="Սիրտ">
                 </div>
 
-                <!-- ═══ ANIMATED LOCATION PATH ═══ -->
                 <div class="location-wrapper" id="locationWrapper">
                     <svg class="path-svg" id="pathSvg" viewBox="0 0 400 480" preserveAspectRatio="none">
                         <path
@@ -974,11 +927,9 @@
         function openEnvelope() {
             document.body.classList.add("open");
             
-            // Սկսել անիմացիան ծրարը բացվելուց հետո
             setTimeout(function() {
                 document.querySelector('.location-traveler').classList.add('playing');
                 
-                // Ցույց տալ կետերը և ժամանակացույցը
                 var dots = document.querySelectorAll('.stop-dot');
                 var items = document.querySelectorAll('.schedule-item');
                 
