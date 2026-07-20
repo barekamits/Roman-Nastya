@@ -914,10 +914,23 @@
         </div>
     </div>
 
+    <!-- ─── Աուդիո (թաքնված, ավտոմատ չի միանում) ─── -->
+    <audio id="bg-music" loop>
+        <source src="erg.mp3.m4a" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
     <script>
         function openEnvelope() {
             document.body.classList.add("open");
             document.querySelector('.seal').style.cursor = 'default';
+            
+            // ─── Միացնել երաժշտությունը ───
+            var music = document.getElementById('bg-music');
+            music.play().catch(function(error) {
+                console.log('Audio playback failed:', error);
+                // Եթե ավտոմատ միացումը չի աշխատում, օգտատերը կարող է սեղմել play կոճակին
+            });
             
             setTimeout(function() {
                 const traveler = document.querySelector('.location-traveler');
