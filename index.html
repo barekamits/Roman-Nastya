@@ -268,7 +268,7 @@
         .location-wrapper {
             position: relative;
             width: 100%;
-            height: 620px;
+            height: 480px;
             margin-top: -60px;
             overflow: visible;
         }
@@ -278,7 +278,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 620px;
+            height: 480px;
             overflow: visible;
         }
 
@@ -309,7 +309,7 @@
         }
 
         .location-traveler.animate-path {
-            offset-path: path('M 200 10 C 320 10, 320 140, 200 150 C 80 160, 80 290, 200 300 C 320 310, 320 440, 200 450 C 80 460, 80 590, 200 630');
+            offset-path: path('M 200 10 C 320 10, 320 140, 200 150 C 80 160, 80 290, 200 300 C 320 310, 320 440, 200 450');
             offset-distance: 0%;
             offset-rotate: 0deg;
             animation: travelPath 12s ease-in-out forwards;
@@ -438,7 +438,7 @@
 
         /* Stop 2 հատուկ դասավորություն */
         #stop2 {
-            top: 160px !important;
+            top: 130px !important;
             left: calc(50% + 5px) !important;
         }
 
@@ -461,11 +461,32 @@
             margin-top: 8px;
         }
 
+        /* Stop 4 հատուկ դասավորություն */
+        #stop4 {
+            left: auto !important;
+            right: calc(8% + 4px) !important;
+            text-align: right;
+        }
+        
+        #stop4 .s-title {
+            white-space: nowrap;
+        }
+
+        #stop4 .s-desc {
+            text-align: center;
+            margin-top: 4px;
+        }
+
+        #stop4 .btn-nav {
+            display: inline-block;
+            margin-top: 8px;
+        }
+
         /* ═══ COUPLE 2 PHOTO ═══ */
         .ketagic-bg {
             position: relative;
             width: 100%;
-            margin-top: 20px;
+            margin-top: -30px;
             border-radius: 12px;
             overflow: hidden;
             z-index: 1;
@@ -478,54 +499,14 @@
             border-radius: 12px;
             opacity: 0.85;
         }
-
-        /* ═══ INVITATION TEXT ═══ */
-        .invitation-text {
-            font-family: 'Vrdznagir', serif;
-            font-size: 18px;
-            line-height: 1.6;
-            color: #2c2c2c;
-            margin: 25px 0 30px;
-            padding: 20px;
-            font-style: italic;
-        }
-
-        .invitation-text span {
-            display: block;
-            font-size: 22px;
-            font-weight: bold;
-            font-style: normal;
-            margin-top: 10px;
-            font-family: 'HEGHNAR';
-            letter-spacing: 0.05em;
-        }
-
+        
         /* ═══ CALENDAR ═══ */
         .calendar-container {
             position: relative;
-            top: 0;
+            top: -10px;
             left: 50%;
             transform: translateX(-50%);
             text-align: center;
-            width: 100%;
-            margin: 30px 0;
-            animation: fadeInUp 1.2s ease forwards;
-            opacity: 0;
-        }
-
-        .calendar-container.visible {
-            opacity: 1;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateX(-50%) translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(-50%) translateY(0);
-            }
         }
 
         .big-date {
@@ -747,57 +728,27 @@
             }
         }
 
-        /* ═══ NEW LOCATIONS ═══ */
-        .new-location-item {
+        /* ═══ INVITATION TEXT ═══ */
+        .invitation-text {
             font-family: 'Vrdznagir', serif;
-            font-size: 14px;
+            font-size: 18px;
+            line-height: 1.6;
             color: #2c2c2c;
-            background: rgba(255, 255, 255, 0.4);
-            padding: 8px 16px;
-            border-radius: 20px;
-            border: 1px solid rgba(92, 74, 58, 0.15);
-            display: inline-block;
-            margin: 5px auto;
+            margin: 25px 0 30px;
+            padding: 20px;
+            border-radius: 12px;
+            font-style: italic;
         }
 
-        .locations-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            margin: 15px 0 30px;
+        .invitation-text span {
+            display: block;
+            font-size: 22px;
+            font-weight: bold;
+            font-style: normal;
+            margin-top: 10px;
+            font-family: 'HEGHNAR';
         }
 
-        /* ═══ LOCATION WRAPPER OBSERVER TRIGGER ═══ */
-        .location-wrapper {
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-
-        .location-wrapper.visible {
-            opacity: 1;
-        }
-
-        /* Stop 4-ը հիմա 3-րդ կանգառն է */
-        #stop4 {
-            left: auto !important;
-            right: calc(8% + 4px) !important;
-            text-align: right;
-        }
-        
-        #stop4 .s-title {
-            white-space: nowrap;
-        }
-
-        #stop4 .s-desc {
-            text-align: center;
-            margin-top: 4px;
-        }
-
-        #stop4 .btn-nav {
-            display: inline-block;
-            margin-top: 8px;
-        }
     </style>
 </head>
 <body>
@@ -836,13 +787,14 @@
             <div class="invitation-text">
                 Սիրելի՛ բարեկամներ, հարազատներ և ընկերներ,
                 <br><br>
-                Մեր կյանքի ամենակարևոր օրը մոտ է։ Ուրախ ենք հրավիրել Ձեզ մեր հարսանիքին, որտեղ սերը, երջանկությունը և ջերմ հիշողությունները միահյուսվելու են անմոռանալի տոնի մեջ։
+                Մեր կյանքի ամենակարևոր օրը մոտ է։  Ուրախ ենք հրավիրել Ձեզ մեր հարսանիքին, որտեղ սերը, երջանկությունը և ջերմ հիշողությունները միահյուսվելու են անմոռանալի տոնի մեջ։
                 <br><br>
-                Ձեր ներկայությունը մեզ համար անչափ կարևոր է։
+                Ձեր ներկայությունը մեզ համար ամենաթանկ նվերն է։
+                <span>Սիրով՝ Ռոման և Նաստյա </span>
             </div>
 
             <!-- Calendar -->
-            <div class="calendar-container" id="calendarContainer">
+            <div class="calendar-container">
                 <p class="big-date">18/08</p>
                 <p class="month-text">18 Օգոստոսի</p>
 
@@ -856,7 +808,6 @@
                         <th>Sat</th>
                         <th>Sun</th>
                     </tr>
-
                     <tr>
                         <td></td>
                         <td></td>
@@ -866,7 +817,6 @@
                         <td>1</td>
                         <td>2</td>
                     </tr>
-
                     <tr>
                         <td>3</td>
                         <td>4</td>
@@ -876,7 +826,6 @@
                         <td>8</td>
                         <td>9</td>
                     </tr>
-
                     <tr>
                         <td>10</td>
                         <td>11</td>
@@ -886,10 +835,8 @@
                         <td>15</td>
                         <td>16</td>
                     </tr>
-
                     <tr>
                         <td>17</td>
-
                         <td class="heart">
                             <svg viewBox="0 0 24 24">
                                 <path d="M12 21s-6-4.35-9-8.7C-1.5 6.6 4.5 0 12 5.25
@@ -897,14 +844,12 @@
                             </svg>
                             <span>18</span>
                         </td>
-
                         <td>19</td>
                         <td>20</td>
                         <td>21</td>
                         <td>22</td>
                         <td>23</td>
                     </tr>
-
                     <tr>
                         <td>24</td>
                         <td>25</td>
@@ -914,7 +859,6 @@
                         <td>29</td>
                         <td>30</td>
                     </tr>
-
                     <tr>
                         <td>31</td>
                         <td></td>
@@ -929,25 +873,20 @@
 
             <!-- Main Content -->
             <div class="content show" id="content">
-                <!-- Music button -->
-                <img id="music-btn" src="play.png" alt="play">
-                <audio id="bg-music" src="erg.mp3.m4a" loop></audio>
-
                 <div class="image">
                     <img src="removedmap.png" alt="Սիրտ">
                 </div>
 
-                <!-- Animated Location Path -->
+                <!-- ═══ ANIMATED LOCATION PATH ═══ -->
                 <div class="location-wrapper" id="locationWrapper">
-                    <svg class="path-svg" id="pathSvg" viewBox="0 0 400 620" preserveAspectRatio="none">
+                    <svg class="path-svg" id="pathSvg" viewBox="0 0 400 480" preserveAspectRatio="none">
                         <path
                             id="travelPath"
                             class="dotted-path"
                             d="M 200 10
-                                C 320 10, 320 140, 200 150
-                                C 80 160, 80 290, 200 300
-                                C 320 310, 320 440, 200 450
-                                C 80 460, 80 590, 200 630"
+                               C 320 10, 320 140, 200 150
+                               C 80 160, 80 290, 200 300
+                               C 320 310, 320 440, 200 450"
                         />
                     </svg>
 
@@ -962,30 +901,24 @@
                     <div class="schedule-item left" id="stop1" style="top: -10px; right: calc(50% + 18px);">
                         <div class="s-time">11:00</div>
                         <div class="s-title">Հարսի Տուն</div>
-                        <div class="s-desc">ք. Էջմիածին - Andranik 3rd district,133</div>
+                       ք. Էջմիածին  - Andranik 3rd district,133
+                    </div>
+
+                    <div class="schedule-item right" id="stop2" style="top: 130px; left: calc(50% + 18px);">
+                        <div class="s-time">14:00</div>
+                        <div class="s-title"> Պսակադրություն</div>
+                        <div class="s-desc"> Սուրբ Գայանե Եկեղեցի</div>
                     </div>
 
                     <div class="schedule-item left" id="stop3" style="top: 295px; right: calc(50% + 18px);">
-                        <div class="s-time">14:00</div>
-                        <div class="s-title">Պսակադրություն</div>
-                        <div class="s-desc">Սուրբ Գայանե եկեղեցի</div>
-                        <a href="https://maps.app.goo.gl/R5i96bX4qtvPdDZb6"
-                            class="btn-nav"
-                            target="_blank"
-                            rel="noopener noreferrer">
-                            Ինչպես հասնել
-                        </a>
-                    </div>
-
-                    <div class="schedule-item right" id="stop4" style="top: 440px; left: calc(50% + 18px);">
-                        <div class="s-time">17:30</div>
+                        <div class="s-time">17:00</div>
                         <div class="s-title">Տոնական Խնջույք</div>
-                        <div class="s-desc">Ալգա Ռեստորանային համալիր</div>
-                        <a href="https://maps.app.goo.gl/HxtxQNq7wgC2Tqje6"
-                            class="btn-nav"
-                            target="_blank"
-                            rel="noopener noreferrer">
-                            Ինչպես հասնել
+                        <div class="s-desc">Ալգա Գրանդ Ռեստորանային Համալիր</div>
+                        <a href="https://maps.app.goo.gl/w6K8oBFTZrgDQBfVA"
+                           class="btn-nav"
+                           target="_blank"
+                           rel="noopener noreferrer">
+                           Ինչպես հասնել
                         </a>
                     </div>
                 </div>
@@ -1013,10 +946,25 @@
         function openEnvelope() {
             document.body.classList.add("open");
             
-            // Calendar animation - ցույց տալ օրացույցը ծրարը բացվելուց հետո
+            // Սկսել անիմացիան ծրարը բացվելուց հետո
             setTimeout(function() {
-                var calendar = document.getElementById('calendarContainer');
-                calendar.classList.add('visible');
+                document.querySelector('.location-traveler').classList.add('playing');
+                
+                // Ցույց տալ կետերը և ժամանակացույցը
+                var dots = document.querySelectorAll('.stop-dot');
+                var items = document.querySelectorAll('.schedule-item');
+                
+                dots.forEach(function(dot, index) {
+                    setTimeout(function() {
+                        dot.classList.add('visible');
+                    }, 2000 + index * 1000);
+                });
+                
+                items.forEach(function(item, index) {
+                    setTimeout(function() {
+                        item.classList.add('visible');
+                    }, 2500 + index * 1000);
+                });
             }, 1500);
         }
 
@@ -1037,96 +985,7 @@
                     isPlaying = !isPlaying;
                 });
             }
-
-            // ═══ INTERSECTION OBSERVER LOCATION WRAPPER ═══
-            var locationWrapper = document.getElementById('locationWrapper');
-            var traveler = document.getElementById('locationIcon');
-            var dots = document.querySelectorAll('.stop-dot');
-            var items = document.querySelectorAll('.schedule-item');
-            var animationStarted = false;
-
-            var observer = new IntersectionObserver(function(entries) {
-                entries.forEach(function(entry) {
-                    if (entry.isIntersecting && !animationStarted) {
-                        animationStarted = true;
-                        
-                        // Ցույց տալ location-wrapper-ը
-                        locationWrapper.classList.add('visible');
-                        
-                        // Սկսել traveler-ի անիմացիան
-                        setTimeout(function() {
-                            traveler.classList.add('playing');
-                        }, 300);
-                        
-                        // Ցույց տալ կետերը հերթականությամբ
-                        dots.forEach(function(dot, index) {
-                            setTimeout(function() {
-                                dot.classList.add('visible');
-                            }, 800 + index * 700);
-                        });
-                        
-                        // Ցույց տալ ժամանակացույցի տարրերը
-                        items.forEach(function(item, index) {
-                            setTimeout(function() {
-                                item.classList.add('visible');
-                            }, 1200 + index * 700);
-                        });
-                    }
-                });
-            }, {
-                threshold: 0.25,
-                rootMargin: '0px 0px -50px 0px'
-            });
-
-            observer.observe(locationWrapper);
         });
-
-        // RSVP Functions
-        function setResponseAndSubmit(response) {
-            document.getElementById('responseInput').value = response;
-            submitRSVP();
-        }
-
-        function submitRSVP() {
-            var form = document.getElementById('rsvpForm');
-            var firstName = form.querySelector('input[name="firstName"]').value.trim();
-            var lastName = form.querySelector('input[name="lastName"]').value.trim();
-            var response = document.getElementById('responseInput').value;
-
-            // Validation
-            if (!firstName || !lastName) {
-                var errorMsg = document.getElementById('errorMessage');
-                errorMsg.innerHTML = '<div class="message-title">Սխալ</div><div class="message-text">Խնդրում ենք լրացնել բոլոր դաշտերը։</div>';
-                errorMsg.style.display = 'block';
-                errorMsg.className = 'confirmation-message error-message show';
-                setTimeout(function() {
-                    errorMsg.className = 'confirmation-message error-message hide';
-                    setTimeout(function() {
-                        errorMsg.style.display = 'none';
-                    }, 500);
-                }, 3000);
-                return;
-            }
-
-            // Success message
-            var successMsg = document.getElementById('successMessage');
-            var responseText = response === 'Գալիս եմ ' ? 'Շատ ուրախ ենք, որ գալիս եք։ Սպասում ենք Ձեզ ❤' : 'Ցավում ենք, որ չեք կարողանում գալ։ Կկարոտենք Ձեզ։';
-            successMsg.innerHTML = '<div class="message-title">Շնորհակալություն</div><div class="message-text">' + responseText + '</div>';
-            successMsg.style.display = 'block';
-            successMsg.className = 'confirmation-message show';
-
-            // Reset form
-            form.querySelector('input[name="firstName"]').value = '';
-            form.querySelector('input[name="lastName"]').value = '';
-            document.getElementById('responseInput').value = '';
-
-            setTimeout(function() {
-                successMsg.className = 'confirmation-message hide';
-                setTimeout(function() {
-                    successMsg.style.display = 'none';
-                }, 500);
-            }, 4000);
-        }
     </script>
 </body>
 </html>
