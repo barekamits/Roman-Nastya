@@ -364,16 +364,18 @@
             opacity: 0;
             transform: translateY(18px);
             transition: opacity 0.6s ease, transform 0.6s ease;
+            pointer-events: none;
         }
 
         .schedule-item.visible {
             opacity: 1;
             transform: translateY(0) !important;
+            pointer-events: auto;
         }
 
         .schedule-item.left {
             text-align: right;
-            margin-top: 30px;
+            margin-top: 15px;
         }
 
         .schedule-item.right {
@@ -734,7 +736,6 @@
             font-family: 'HEGHNAR';
         }
 
-        /* Ծրարի ձևավորման լրացուցիչ էֆեկտներ */
         .envelope-flap.top::after {
             content: '';
             position: absolute;
@@ -754,19 +755,14 @@
             height: 2px;
             background: linear-gradient(to right, transparent, rgba(0,0,0,0.1), transparent);
         }
-
     </style>
 </head>
 <body>
 
     <!-- ─── Ամբողջական ծրար ─── -->
     <div class="envelope-container" id="envelopeContainer">
-        <div class="envelope-flap top">
-            
-        </div> 
-        <div class="envelope-flap bottom">
-          
-        </div>
+        <div class="envelope-flap top"></div> 
+        <div class="envelope-flap bottom"></div>
     </div>
 
     <!-- ─── Կնիք ─── -->
@@ -816,31 +812,13 @@
                         <th>Sun</th>
                     </tr>
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>1</td>
-                        <td>2</td>
+                        <td></td><td></td><td></td><td></td><td></td><td>1</td><td>2</td>
                     </tr>
                     <tr>
-                        <td>3</td>
-                        <td>4</td>
-                        <td>5</td>
-                        <td>6</td>
-                        <td>7</td>
-                        <td>8</td>
-                        <td>9</td>
+                        <td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td>
                     </tr>
                     <tr>
-                        <td>10</td>
-                        <td>11</td>
-                        <td>12</td>
-                        <td>13</td>
-                        <td>14</td>
-                        <td>15</td>
-                        <td>16</td>
+                        <td>10</td><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td><td>16</td>
                     </tr>
                     <tr>
                         <td>17</td>
@@ -851,29 +829,13 @@
                             </svg>
                             <span>18</span>
                         </td>
-                        <td>19</td>
-                        <td>20</td>
-                        <td>21</td>
-                        <td>22</td>
-                        <td>23</td>
+                        <td>19</td><td>20</td><td>21</td><td>22</td><td>23</td>
                     </tr>
                     <tr>
-                        <td>24</td>
-                        <td>25</td>
-                        <td>26</td>
-                        <td>27</td>
-                        <td>28</td>
-                        <td>29</td>
-                        <td>30</td>
+                        <td>24</td><td>25</td><td>26</td><td>27</td><td>28</td><td>29</td><td>30</td>
                     </tr>
                     <tr>
-                        <td>31</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>31</td><td></td><td></td><td></td><td></td><td></td><td></td>
                     </tr>
                 </table>
             </div>
@@ -903,14 +865,13 @@
                     <div class="schedule-item left" id="stop1" style="top: -10px; right: calc(50% + 18px);">
                         <div class="s-time">11:00</div>
                         <div class="s-title">Հարսի Տուն</div>
-                    
                     </div>
 
                     <div class="schedule-item right" id="stop2" style="top: 130px; left: calc(50% + 18px);">
                         <div class="s-time">14:00</div>
-                        <div class="s-title"> Պսակադրություն</div>
-                        <div class="s-desc"> Սուրբ Գայանե Եկեղեցի</div>
-                         <a href="https://maps.app.goo.gl/w6K8oBFTZrgDQBfVA"
+                        <div class="s-title">Պսակադրություն</div>
+                        <div class="s-desc">Սուրբ Գայանե Եկեղեցի</div>
+                        <a href="https://maps.app.goo.gl/w6K8oBFTZrgDQBfVA"
                            class="btn-nav"
                            target="_blank"
                            rel="noopener noreferrer">
@@ -953,28 +914,82 @@
     <script>
         function openEnvelope() {
             document.body.classList.add("open");
-            
-            // Անջատել կնիքի կրկնակի սեղմումը
             document.querySelector('.seal').style.cursor = 'default';
             
             setTimeout(function() {
-                document.querySelector('.location-traveler').classList.add('playing');
+                const traveler = document.querySelector('.location-traveler');
+                traveler.classList.add('playing');
                 
-                var dots = document.querySelectorAll('.stop-dot');
-                var items = document.querySelectorAll('.schedule-item');
-                
-                dots.forEach(function(dot, index) {
-                    setTimeout(function() {
-                        dot.classList.add('visible');
-                    }, 2000 + index * 1000);
+                // Show dots with delays
+                const dots = document.querySelectorAll('.stop-dot');
+                dots.forEach((dot, index) => {
+                    setTimeout(() => dot.classList.add('visible'), 2000 + index * 1000);
                 });
                 
-                items.forEach(function(item, index) {
-                    setTimeout(function() {
-                        item.classList.add('visible');
-                    }, 2500 + index * 1000);
-                });
+                // Start monitoring traveler position to show schedule items
+                monitorTravelerPosition(traveler);
+                
             }, 1500);
+        }
+
+        function monitorTravelerPosition(traveler) {
+            // Get the animation
+            const animations = traveler.getAnimations();
+            if (animations.length === 0) return;
+            
+            const animation = animations[0];
+            const stop1Shown = false;
+            const stop2Shown = false;
+            const stop3Shown = false;
+            
+            // Check position every frame
+            function checkPosition() {
+                // Get current offset-distance value
+                const computedStyle = getComputedStyle(traveler);
+                const offsetDistance = computedStyle.offsetDistance;
+                
+                // Parse percentage
+                let percent = 0;
+                if (offsetDistance) {
+                    const match = offsetDistance.match(/([\d.]+)%/);
+                    if (match) {
+                        percent = parseFloat(match[1]);
+                    }
+                }
+                
+                // Show items based on traveler position
+                // Stop 1: around 0-8% (starting point)
+                if (percent >= 0 && percent <= 10 && !window.stop1Shown) {
+                    document.getElementById('stop1').classList.add('visible');
+                    window.stop1Shown = true;
+                }
+                
+                // Stop 2: around 33-41% (first stop)
+                if (percent >= 33 && percent <= 45 && !window.stop2Shown) {
+                    document.getElementById('stop2').classList.add('visible');
+                    window.stop2Shown = true;
+                }
+                
+                // Stop 3: around 66-74% (second stop)
+                if (percent >= 66 && percent <= 78 && !window.stop3Shown) {
+                    document.getElementById('stop3').classList.add('visible');
+                    window.stop3Shown = true;
+                }
+                
+                // Continue monitoring if animation is still running
+                if (animation.playState === 'running') {
+                    requestAnimationFrame(checkPosition);
+                } else {
+                    // Final check for stop 3 if not shown yet
+                    if (!window.stop3Shown) {
+                        document.getElementById('stop3').classList.add('visible');
+                        window.stop3Shown = true;
+                    }
+                }
+            }
+            
+            // Start monitoring
+            requestAnimationFrame(checkPosition);
         }
  
         document.addEventListener('DOMContentLoaded', function () {
@@ -996,7 +1011,6 @@
             }
         });
 
-        // RSVP ֆունկցիաներ (պարզեցված)
         function setResponseAndSubmit(response) {
             document.getElementById('responseInput').value = response;
             var firstName = document.querySelector('input[name="firstName"]').value;
@@ -1019,7 +1033,7 @@
             msg.textContent = message;
             msg.style.display = 'block';
             msg.classList.remove('hide', 'show');
-            void msg.offsetWidth; // force reflow
+            void msg.offsetWidth;
             msg.classList.add('show');
             
             setTimeout(function() {
