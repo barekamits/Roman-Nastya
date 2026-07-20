@@ -175,7 +175,7 @@
         }
         
         .main-title {
-            font-family: 'Crafty Girls', cursive; /* Փոխված է ամսաթվի ֆոնտով */
+            font-family: 'Crafty Girls', cursive;
             font-size: 2.8rem;
             font-weight: 400;
             color: #2c2c2c;
@@ -244,6 +244,22 @@
             filter: grayscale(100%);
         }
 
+        /* ===== ԶՈՒՅՂԻ ՆԿԱՐԸ ԺԱՄԱՆԱԿԱՑՈՒՅՑԻՑ ՀԵՏՈ ===== */
+        .couple-photo-bottom {
+            width: 100%;
+            height: 420px;
+            background: linear-gradient(135deg, #f0f0f0, #d0d0d0);
+            border-radius: 8px;
+            margin-top: 40px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .couple-photo-bottom .photo-placeholder img {
+            filter: grayscale(50%) sepia(15%);
+            object-position: center 30%;
+        }
+
         @media (max-width: 480px) {
             .invitation-card {
                 padding: 30px 20px;
@@ -259,9 +275,22 @@
                 height: 320px;
                 margin-top: 15px;
             }
+            .couple-photo-bottom {
+                height: 320px;
+                margin-top: 30px;
+            }
             .seal {
                 width: 120px;
                 height: 120px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .couple-photo {
+                height: 260px;
+            }
+            .couple-photo-bottom {
+                height: 260px;
             }
         }
 
@@ -595,12 +624,85 @@
             box-shadow: 0 0 0 2px rgba(76, 71, 49, 0.1);
         }
 
+        /* ===== ՔԱՆԱԿԻ ԸՆՏՐՈՒԹՅՈՒՆ ===== */
+        .quantity-wrapper {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 5px;
+        }
+
+        .quantity-label {
+            font-family: 'Vrdznagir', serif;
+            font-size: 16px;
+            color: #4c4731;
+            white-space: nowrap;
+        }
+
+        .quantity-input {
+            width: 70px;
+            padding: 10px 8px;
+            font-size: 18px;
+            color: #3B3B28;
+            background-color: white;
+            border: 1px solid #3B3B28;
+            border-radius: 25px;
+            outline: none;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .quantity-input:focus {
+            border-color: #4c4731;
+            box-shadow: 0 0 0 2px rgba(76, 71, 49, 0.1);
+        }
+
+        .quantity-input::-webkit-inner-spin-button,
+        .quantity-input::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .quantity-input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        .quantity-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid #3B3B28;
+            background-color: transparent;
+            color: #3B3B28;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+
+        .quantity-btn:hover {
+            background-color: #4c4731;
+            color: white;
+            border-color: #4c4731;
+        }
+
+        .quantity-btn:active {
+            transform: scale(0.92);
+        }
+
         .button-wrapper {
             margin-top: 20px;
             display: flex;
             flex-direction: column;
             gap: 20px;
             align-items: center;
+            width: 100%;
         }
 
         .btn-rsvp {
@@ -612,6 +714,8 @@
             cursor: pointer;
             transition: all 0.3s ease;
             text-decoration: none;
+            width: 100%;
+            max-width: 280px;
         }
 
         .btn-yes { background-color: #4c4731; }
@@ -713,6 +817,19 @@
         @media (max-width: 360px) {
             .dual-button-wrapper .btn-rsvp {
                 font-size: 11px;
+            }
+            .quantity-input {
+                width: 55px;
+                font-size: 16px;
+                padding: 8px 4px;
+            }
+            .quantity-btn {
+                width: 30px;
+                height: 30px;
+                font-size: 16px;
+            }
+            .quantity-label {
+                font-size: 14px;
             }
         }
 
@@ -892,8 +1009,21 @@
       font-weight: 500;
       font-size: 25px !important;
       color: #9a8f83;
-      margin-top: 0px; /* Փոփոխված */
+      margin-top: 0px;
       white-space: nowrap;
+    }
+
+    /* ===== ՀԱՍՑԵ ===== */
+    .timing-address {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: clamp(14px, 2.4vw, 17px);
+      color: #6b5d4f;
+      margin-top: 6px;
+      white-space: normal;
+      word-wrap: break-word;
+      width: 100%;
+      text-align: center;
     }
 
     .timing-venue {
@@ -911,7 +1041,7 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      margin-top: 0px; /* Փոփոխված */
+      margin-top: 0px;
       font-family: "Cormorant Garamond", serif;
       font-size: clamp(15px, 2.5vw, 18px);
       color: #8a7357;
@@ -995,6 +1125,10 @@
         font-size: 18px !important;
       }
 
+      .timing-address {
+        font-size: 13px !important;
+      }
+
       .timing-venue {
         font-size: 14px !important;
         white-space: normal;
@@ -1065,6 +1199,11 @@
         margin-top: 0px;
       }
 
+      .timing-address {
+        font-size: 11px !important;
+        margin-top: 4px;
+      }
+
       .timing-venue {
         font-size: 12px !important;
         margin-top: 8px;
@@ -1105,6 +1244,10 @@
       .timing-desc {
         font-size: 13px !important;
       }
+
+      .timing-address {
+        font-size: 10px !important;
+      }
     }
     </style>
 </head>
@@ -1118,7 +1261,7 @@
 
     <!-- ─── Կնիք ─── -->
     <div class="seal" onclick="openEnvelope()">
-        <img src="https://uploads.onecompiler.io/43gpeysj6/1784535804737/wss1.png" alt="կնիք" />
+        <img src="wss1.png" alt="կնիք" />
     </div>
 
     <!-- ─── Երկրորդ էկրան (հրավեր + ամբողջ բովանդակություն) ─── -->
@@ -1135,7 +1278,7 @@
             
             <div class="couple-photo">
                 <div class="photo-placeholder">
-                    <img src="https://uploads.onecompiler.io/43gpeysj6/1783465065772/first.jpg" alt="Roman & Nastia">
+                    <img src="zuyg1.jfif" alt="Roman & Nastia">
                 </div>
             </div>
 
@@ -1207,6 +1350,7 @@
                         <div class="timing-content">
                             <div class="timing-time">11:00</div>
                             <div class="timing-desc">Հարսի Տուն</div>
+                            <div class="timing-address">Հասցե՝ ք. Էջմիածին  - Andranik 3rd district,133</div>
                         </div>
                     </div>
 
@@ -1218,28 +1362,10 @@
                             </svg>
                         </div>
                         <div class="timing-content">
-                            <div class="timing-time">11:00</div>
-                            <div class="timing-desc">Հարսի Տուն</div>
-                            <a href="#" target="_blank" class="timing-link">
-                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                                </svg>
-                                Ինչպես հասնել
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- 3. Պսակադրություն -->
-                    <div class="timing-item side-left reveal is-visible">
-                        <div class="timing-marker">
-                            <svg viewBox="0 0 32 29" fill="#8a7357">
-                                <path d="M16 28.5 2.7 16.6C-0.6 13.5-0.7 8.4 2.5 5.2 5.4 2.3 10 2.2 13 5l3 2.8L19 5c3-2.8 7.6-2.7 10.5.2 3.2 3.2 3.1 8.3-0.2 11.4L16 28.5Z"/>
-                            </svg>
-                        </div>
-                        <div class="timing-content">
-                            <div class="timing-time">14:00</div>
+                            <div class="timing-time">12:00</div>
                             <div class="timing-desc">Պսակադրություն</div>
-                            <a href="#" target="_blank" class="timing-link">
+                            <div class="timing-address">Հասցե՝ Սուրբ Գայանե Եկեղեցի</div>
+                            <a href="https://maps.app.goo.gl/KZmxoBDJncSYkVjQ8" target="_blank" class="timing-link">
                                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                                 </svg>
@@ -1248,8 +1374,8 @@
                         </div>
                     </div>
 
-                    <!-- 4. Տոնական Խնջույք -->
-                    <div class="timing-item side-right reveal is-visible">
+                    <!-- 3. Պսակադրություն (Եկեղեցի) -->
+                    <div class="timing-item side-left reveal is-visible">
                         <div class="timing-marker">
                             <svg viewBox="0 0 32 29" fill="#8a7357">
                                 <path d="M16 28.5 2.7 16.6C-0.6 13.5-0.7 8.4 2.5 5.2 5.4 2.3 10 2.2 13 5l3 2.8L19 5c3-2.8 7.6-2.7 10.5.2 3.2 3.2 3.1 8.3-0.2 11.4L16 28.5Z"/>
@@ -1258,7 +1384,8 @@
                         <div class="timing-content">
                             <div class="timing-time">17:00</div>
                             <div class="timing-desc">Տոնական Խնջույք</div>
-                            <a href="#" target="_blank" class="timing-link">
+                            <div class="timing-address">Հասցե՝ Ալգա Ռեստորանային համալիր</div>
+                            <a href="https://maps.app.goo.gl/oyKYnNWBEWiJ5toz5" target="_blank" class="timing-link">
                                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                                 </svg>
@@ -1266,15 +1393,26 @@
                             </a>
                         </div>
                     </div>
+
+  
+                </div>
+            </div>
+
+            <!-- ===== ԶՈՒՅՂԻ ՆԿԱՐԸ ԺԱՄԱՆԱԿԱՑՈՒՅՑԻՑ ՀԵՏՈ (մեծ չափերով) ===== -->
+            <div class="couple-photo-bottom">
+                <div class="photo-placeholder">
+                    <img src="zuyg2.jfif" alt="Roman & Nastia">
                 </div>
             </div>
 
             <form id="rsvpForm" class="name-fields">
                 <input type="text" name="firstName" class="name-input" placeholder="Անուն" required>
                 <input type="text" name="lastName" class="name-input" placeholder="Ազգանուն" required>
+                  <input type="number" name="guests" class="name-input" placeholder="Հյուրերի քանակ" min="1" max="10">
+           
                 <input type="hidden" name="response" id="responseInput">
                 <div class="button-wrapper">
-                    <button type="button" class="btn-rsvp btn-yes" onclick="setResponseAndSubmit('Գալիս եմ ')">Գալիս եմ</button>
+                    <button type="button" class="btn-rsvp btn-yes" onclick="setResponseAndSubmit('Գալիս եմ')">Գալիս եմ</button>
                     <button type="button" class="btn-rsvp btn-no" onclick="setResponseAndSubmit('Չեմ գալիս')">Չեմ գալիս</button>
                 </div>
                 <div class="confirmation-message" id="successMessage" style="display:none;"></div>
@@ -1329,18 +1467,31 @@
             }
         });
 
+        // ===== ՔԱՆԱԿԻ ՓՈԽՄԱՆ ՖՈՒՆԿՑԻԱ =====
+        function changeQuantity(delta) {
+            var input = document.getElementById('quantityInput');
+            var currentValue = parseInt(input.value) || 1;
+            var newValue = currentValue + delta;
+            
+            if (newValue < 1) newValue = 1;
+            if (newValue > 20) newValue = 20;
+            
+            input.value = newValue;
+        }
+
         function setResponseAndSubmit(response) {
             document.getElementById('responseInput').value = response;
             var firstName = document.querySelector('input[name="firstName"]').value;
             var lastName = document.querySelector('input[name="lastName"]').value;
+            var quantity = document.getElementById('quantityInput').value;
             
             if (!firstName || !lastName) {
                 showMessage('errorMessage', 'Խնդրում ենք լրացնել անունը և ազգանունը։');
                 return;
             }
             
-            var message = response === 'Գալիս եմ ' ? 
-                'Շնորհակալություն! Մենք սպասում ենք Ձեզ։ 🎉' : 
+            var message = response === 'Գալիս եմ' ? 
+                'Շնորհակալություն! Մենք սպասում ենք Ձեզ և Ձեր ' + quantity + ' հյուրերին։ 🎉' : 
                 'Ցավում ենք, որ չեք կարողանա գալ։ Կարոտելու ենք Ձեզ։ 💕';
             
             showMessage('successMessage', message);
