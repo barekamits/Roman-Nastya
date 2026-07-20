@@ -921,34 +921,31 @@
     </audio>
 
     <script>
-        function openEnvelope() {
-            document.body.classList.add("open");
-            document.querySelector('.seal').style.cursor = 'default';
-            
-            // ─── Միացնել երաժշտությունը ───
-            var music = document.getElementById('bg-music');
-            var startSecond = 19; // Փոխիր այստեղ ցանկալի վայրկյանը
-            music.play().catch(function(error) {
-                console.log('Audio playback failed:', error);
-                // Եթե ավտոմատ միացումը չի աշխատում, օգտատերը կարող է սեղմել play կոճակին
-            });
-            
-            setTimeout(function() {
-                const traveler = document.querySelector('.location-traveler');
-                traveler.classList.add('playing');
-                
-                // Show dots with delays
-                const dots = document.querySelectorAll('.stop-dot');
-                dots.forEach((dot, index) => {
-                    setTimeout(() => dot.classList.add('visible'), 2000 + index * 1000);
-                });
-                
-                // Start monitoring traveler position to show schedule items
-                monitorTravelerPosition(traveler);
-                
-            }, 1500);
-        }
-
+     function openEnvelope() {
+    document.body.classList.add("open");
+    document.querySelector('.seal').style.cursor = 'default';
+    
+    // ─── Միացնել երաժշտությունը 20-րդ վայրկյանից ───
+    var music = document.getElementById('bg-music');
+    var startSecond = 20;
+    music.currentTime = startSecond;
+    music.play().catch(function(error) {
+        console.log('Audio playback failed:', error);
+    });
+    
+    setTimeout(function() {
+        const traveler = document.querySelector('.location-traveler');
+        traveler.classList.add('playing');
+        
+        const dots = document.querySelectorAll('.stop-dot');
+        dots.forEach((dot, index) => {
+            setTimeout(() => dot.classList.add('visible'), 2000 + index * 1000);
+        });
+        
+        monitorTravelerPosition(traveler);
+        
+    }, 1500);
+}
         function monitorTravelerPosition(traveler) {
             // Get the animation
             const animations = traveler.getAnimations();
