@@ -114,22 +114,34 @@
 .open .bottom-triangle{
     transform: translateX(-50%) translateY(100vh);
 }
-@media (max-width:480px){
+@media (max-width: 480px){
 
     .top-triangle,
     .bottom-triangle{
-        width:110vw;
+        width: 140%;
+        left: -20%;
     }
 
     .top-triangle{
-        top:-175px;
+        top: -230px;
     }
 
     .bottom-triangle{
-        bottom:-175px;
+        bottom: -230px;
+    }
+
+    .seal{
+        transform: translate(-50%, -50%);
+    }
+
+    .open .top-triangle{
+        transform: translateY(-100vh);
+    }
+
+    .open .bottom-triangle{
+        transform: translateY(100vh);
     }
 }
-
         .second-screen {
             position: fixed;
             inset: 0;
