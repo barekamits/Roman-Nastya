@@ -1025,111 +1025,76 @@
             }
         });
 
- // ── RSVP ──
-(function () {
-  const FORM     = document.getElementById('rsvpForm');
-  const OK       = document.getElementById('successMessage');
-  const ERR      = document.getElementById('errorMessage');
-  const ENDPOINT = "https://script.google.com/macros/s/AKfycbzUo4iZdFrJwJYgdeiGeNk2pkPQuJRhFae3XX-BWThxavvDN55s8lcAtF6sttub_7NP0g/exec";
+/* ═══ RSVP ═══ */
+    (function () {
+        const FORM = document.getElementById('rsvpForm');
+        const OK   = document.getElementById('successMessage');
+        const ERR  = document.getElementById('errorMessage');
+        const ENDPOINT = "https://script.google.com/macros/s/AKfycbzV-ElTyDcG0VScfF5tUrB9PiBot2q2K9nG1jiQ37NPxJqlOywKXAFdezqE2m6zC7Y1Uw/exec";
 
-  FORM.addEventListener('submit', (e) => {
-    e.preventDefault();
+        function showMsg(el, html) {
+            [OK, ERR].forEach(m => {
+                m.style.display = 'none';
+                m.classList.remove('show', 'hide');
+            });
+            el.innerHTML = html;
+            el.style.display = 'block';
+            setTimeout(() => el.classList.add('show'), 10);
+            setTimeout(() => {
+                el.classList.add('hide');
+                setTimeout(() => {
+                    el.style.display = 'none';
+                    el.classList.remove('show', 'hide');
+                }, 500);
+            }, 4000);
+        }
 
-    ERR.style.display = 'none';
-    ERR.classList.remove('show');
+        FORM.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const first = (FORM.querySelector('[name="firstName"]').value || '').trim();
+            const last  = (FORM.querySelector('[name="lastName"]').value || '').trim();
 
-    OK.style.display = 'none';
-    OK.classList.remove('show');
+            if (!first || !last) {
+                showMsg(ERR, '<div class="message-title">Skhal</div><div class="message-text">Khndrum enq lracnel anune ev azganuny</div>');
+                return;
+            }
 
-    const first = (FORM.querySelector('[name="firstName"]').value || '').trim();
-    const last  = (FORM.querySelector('[name="lastName"]').value || '').trim();
+            const resp = (document.getElementById('responseInput').value || '').trim();
+            if (!resp) {
+                showMsg(ERR, '<div class="message-title">Skhal</div><div class="message-text">Yntrek galis ek, te voch</div>');
+                return;
+            }
 
-    if (!first || !last) {
-      ERR.innerHTML = '<div class="message-title">Սխալ</div><div class="message-text">Խնդրում ենք լրացնել անունը և ազգանունը</div>';
-      ERR.style.display = 'block';
-      setTimeout(() => ERR.classList.add('show'), 10);
-      return;
-    }
+            const params = new URLSearchParams();
+            params.append('full_name', `${first} ${last}`);
+            params.append('firstName', first);
+            params.append('lastName', last);
+            params.append('response', resp);
+            params.append('attend', resp);
+            params.append('timestamp', new Date().toISOString());
 
-    const resp = (document.getElementById('responseInput').value || '').trim();
+            fetch(ENDPOINT, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: params.toString()
+            }).catch(err => console.error('RSVP error:', err));
 
-    if (!resp) {
-      ERR.innerHTML = '<div class="message-title">Սխալ</div><div class="message-text">Ընտրեք՝ գալիս եք, թե ոչ</div>';
-      ERR.style.display = 'block';
-      setTimeout(() => ERR.classList.add('show'), 10);
-      return;
-    }
+            const responseText = resp === 'Գալիս եմ'
+                ? 'Մենք ստացել ենք Ձեր պատասխանը և ուրախ ենք կիսել օրը Ձեզ հետ'
+                : 'Շնորհակալ ենք պատասխանի համար';
 
-    const fd = new FormData(FORM);
+            showMsg(OK, '<div class="message-title">Shnorhakalutyun</div>' + `<div class="message-text">${responseText}</div>`);
+            FORM.reset();
+            document.getElementById('responseInput').value = '';
+        });
 
-    fd.set('full_name', `${first} ${last}`);
-    fd.set('response', resp);
-    fd.set('attend', resp);
-    fd.append('timestamp', new Date().toISOString());
-
-    // SEND TO GOOGLE SCRIPT
-    fetch(ENDPOINT, {
-      method: "POST",
-      body: fd
-    })
-    .then(res => res.text())
-    .then(data => {
-      console.log("SCRIPT RESPONSE:", data);
-    })
-    .catch(err => {
-      console.error("SCRIPT ERROR:", err);
-    });
-
-
-    const responseText = (resp === 'Գալիս եմ') 
-      ? 'Շնորհակալություն... ուրախ ենք օրը կիսել Ձեզ հետ' 
-      : 'Շնորհակալություն, մենք ստացել ենք Ձեր պատասխանը';
-
-
-    OK.innerHTML = `
-      <div class="message-title">Շնորհակալություն</div>
-      <div class="message-text">${responseText}</div>
-    `;
-
-    OK.style.display = 'block';
-
-    setTimeout(() => OK.classList.add('show'), 10);
-
-    setTimeout(() => {
-      OK.classList.add('hide');
-
-      setTimeout(() => {
-        OK.style.display = 'none';
-        OK.classList.remove('show','hide');
-      }, 500);
-
-    }, 4000);
-
-
-    FORM.reset();
-    document.getElementById('responseInput').value = '';
-
-  });
-
-
-  window.setResponseAndSubmit = function (answer) {
-
-    document.getElementById('responseInput').value = answer;
-
-    if (FORM.requestSubmit) {
-      FORM.requestSubmit();
-    } else {
-      FORM.dispatchEvent(
-        new Event('submit', {
-          bubbles: true,
-          cancelable: true
-        })
-      );
-    }
-
-  };
-
-})();
+        window.setResponseAndSubmit = function (answer) {
+            document.getElementById('responseInput').value = answer;
+            if (FORM.requestSubmit) FORM.requestSubmit();
+            else FORM.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+        };
+    })();
     </script>
 </body>
 </html>
