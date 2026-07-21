@@ -1026,75 +1026,98 @@
         });
 
 /* ═══ RSVP ═══ */
-    (function () {
-        const FORM = document.getElementById('rsvpForm');
-        const OK   = document.getElementById('successMessage');
-        const ERR  = document.getElementById('errorMessage');
-        const ENDPOINT = "https://script.google.com/macros/s/AKfycbyQghTGprDs4RnK_Tu-zkMcvxQw-A5AG2xhmvQCrkFQ7ZUJxzC4U-NVd-bWgTH9lBXI/exec";
+  (function () {
+    const FORM = document.getElementById('rsvpForm');
+    const OK = document.getElementById('successMessage');
+    const ERR = document.getElementById('errorMessage');
+    const ENDPOINT = "https://script.google.com/macros/s/AKfycbyQghTGprDs4RnK_Tu-zkMcvxQw-A5AG2xhmvQCrkFQ7ZUJxzC4U-NVd-bWgTH9lBXI/exec";
 
-        function showMsg(el, html) {
-            [OK, ERR].forEach(m => {
-                m.style.display = 'none';
-                m.classList.remove('show', 'hide');
-            });
-            el.innerHTML = html;
-            el.style.display = 'block';
-            setTimeout(() => el.classList.add('show'), 10);
-            setTimeout(() => {
-                el.classList.add('hide');
-                setTimeout(() => {
-                    el.style.display = 'none';
-                    el.classList.remove('show', 'hide');
-                }, 500);
-            }, 4000);
-        }
-
-        FORM.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const first = (FORM.querySelector('[name="firstName"]').value || '').trim();
-            const last  = (FORM.querySelector('[name="lastName"]').value || '').trim();
-
-            if (!first || !last) {
-                showMsg(ERR, '<div class="message-title">Skhal</div><div class="message-text">Khndrum enq lracnel anune ev azganuny</div>');
-                return;
-            }
-
-            const resp = (document.getElementById('responseInput').value || '').trim();
-            if (!resp) {
-                showMsg(ERR, '<div class="message-title">Skhal</div><div class="message-text">Yntrek galis ek, te voch</div>');
-                return;
-            }
-
-            const params = new URLSearchParams();
-            params.append('full_name', `${first} ${last}`);
-            params.append('firstName', first);
-            params.append('lastName', last);
-            params.append('response', resp);
-            params.append('attend', resp);
-            params.append('timestamp', new Date().toISOString());
-
-            fetch(ENDPOINT, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: params.toString()
-            }).catch(err => console.error('RSVP error:', err));
-
-            const responseText = resp === 'Գալիս եմ'
-                ? 'Մենք ստացել ենք Ձեր պատասխանը և ուրախ ենք կիսել օրը Ձեզ հետ'
-                : 'Շնորհակալ ենք պատասխանի համար';
-
-            showMsg(OK, '<div class="message-title">Shnorhakalutyun</div>' + `<div class="message-text">${responseText}</div>`);
-            FORM.reset();
-            document.getElementById('responseInput').value = '';
+    function showMsg(el, html) {
+        [OK, ERR].forEach(m => {
+            m.style.display = 'none';
+            m.classList.remove('show', 'hide');
         });
 
-        window.setResponseAndSubmit = function (answer) {
-            document.getElementById('responseInput').value = answer;
-            if (FORM.requestSubmit) FORM.requestSubmit();
-            else FORM.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
-        };
-    })();
+        el.innerHTML = html;
+        el.style.display = 'block';
+
+        setTimeout(() => el.classList.add('show'), 10);
+
+        setTimeout(() => {
+            el.classList.add('hide');
+            setTimeout(() => {
+                el.style.display = 'none';
+                el.classList.remove('show', 'hide');
+            }, 500);
+        }, 4000);
+    }
+
+    FORM.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const first = (FORM.querySelector('[name="firstName"]').value || '').trim();
+        const last = (FORM.querySelector('[name="lastName"]').value || '').trim();
+        const guests = (FORM.querySelector('[name="guests"]').value || '').trim();
+
+        if (!first || !last) {
+            showMsg(ERR, '<div class="message-title">Skhal</div><div class="message-text">Khndrum enq lracnel anune ev azganuny</div>');
+            return;
+        }
+
+        const resp = (document.getElementById('responseInput').value || '').trim();
+
+        if (!resp) {
+            showMsg(ERR, '<div class="message-title">Skhal</div><div class="message-text">Yntrek galis ek, te voch</div>');
+            return;
+        }
+
+        const params = new URLSearchParams();
+
+        params.append('full_name', `${first} ${last}`);
+        params.append('firstName', first);
+        params.append('lastName', last);
+        params.append('guests', guests); // <-- Հյուրերի քանակ
+        params.append('response', resp);
+        params.append('attend', resp);
+        params.append('timestamp', new Date().toISOString());
+
+        fetch(ENDPOINT, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: params.toString()
+        }).catch(err => console.error('RSVP error:', err));
+
+        const responseText = resp === 'Գալիս եմ'
+            ? 'Մենք ստացել ենք Ձեր պատասխանը և ուրախ ենք կիսել օրը Ձեզ հետ'
+            : 'Շնորհակալ ենք պատասխանի համար';
+
+        showMsg(
+            OK,
+            '<div class="message-title">Shnorhakalutyun</div><div class="message-text">' +
+            responseText +
+            '</div>'
+        );
+
+        FORM.reset();
+        document.getElementById('responseInput').value = '';
+    });
+
+    window.setResponseAndSubmit = function (answer) {
+        document.getElementById('responseInput').value = answer;
+
+        if (FORM.requestSubmit) {
+            FORM.requestSubmit();
+        } else {
+            FORM.dispatchEvent(new Event('submit', {
+                bubbles: true,
+                cancelable: true
+            }));
+        }
+    };
+})();
     </script>
 </body>
 </html>
